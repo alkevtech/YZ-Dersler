@@ -1,19 +1,35 @@
-/* Yapay Zekâ Yıldızları renkleri (yapayzekayildizlari.org).
-   lesson.css'ten sonra yüklenir; yalnızca renk değişkenlerini ve birkaç marka
-   dokunuşunu değiştirir. Site Tailwind'in varsayılan paletini kullanıyor:
-   bordo #830201 (giriş bandı), red-600/700 (düğmeler), purple-600, gray-900,
-   gray-50 zeminler, mavi #097bbf, sarı #ffcc00, yeşil #0b9150. */
+/* Yapay Zekâ Yıldızları renkleri (yapayzekayildizlari.org ana sayfası ve
+   Faaliyetler sayfası). lesson.css'ten sonra yüklenir; renk değişkenlerini ve
+   birkaç marka dokunuşunu değiştirir. Site Tailwind'in varsayılan paletini
+   kullanıyor:
+     bordo #830201      giriş bandı               → yükleme ekranı, karşılama kartı
+     red-500/600/700    düğmeler, noktalar        → ana düğmeler, bölüm noktaları
+     purple-600/700     ikincil düğmeler          → açık/kapalı anahtarlar
+     blue-100/800       haber etiketleri          → puan etiketi
+     blue-400           başlık yanı noktalar      → karşılama etiketi
+     #097bbf, #ffcc00, #0b9150                    → mavi ip, sarı mantı, doğru cevap
+     gray-50…900, siyah zeminler ve yazılar, "Eğitimler" hapı
+   Alt kategori çubuğu buzlu cam (beyaz, bulanık, hafif kırmızı ışıltı); bölüm
+   çubuğu da öyle. */
 
 :root {
   --yzy-maroon: #830201;
+  --yzy-red-400: #f87171;
+  --yzy-red-500: #ef4444;
   --yzy-red: #dc2626;
   --yzy-red-deep: #b91c1c;
   --yzy-red-soft: #fecaca;
   --yzy-purple: #9333ea;
+  --yzy-purple-deep: #7e22ce;
   --yzy-blue: #097bbf;
   --yzy-blue-dot: #60a5fa;
+  --yzy-blue-100: #dbeafe;
+  --yzy-blue-800: #1e40af;
   --yzy-yellow: #ffcc00;
   --yzy-green: #0b9150;
+  --yzy-glass: rgba(255, 255, 255, 0.72);
+  --yzy-glass-border: rgba(255, 255, 255, 0.65);
+  --yzy-glass-glow: linear-gradient(to right, rgba(248, 113, 113, 0.07), rgba(239, 68, 68, 0.07), rgba(220, 38, 38, 0.07));
   --yzy-stars: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='220' viewBox='0 0 260 220'%3E%3Cg fill='%23fff'%3E%3Cpolygon opacity='.5' points='38.0,41.0 39.3,44.2 42.8,44.5 40.1,46.7 40.9,50.0 38.0,48.2 35.1,50.0 35.9,46.7 33.2,44.5 36.7,44.2'/%3E%3Cpolygon opacity='.35' points='196.0,26.5 196.9,28.7 199.3,28.9 197.5,30.5 198.1,32.8 196.0,31.6 193.9,32.8 194.5,30.5 192.7,28.9 195.1,28.7'/%3E%3Cpolygon opacity='.45' points='150.0,163.5 151.2,166.4 154.3,166.6 151.9,168.6 152.6,171.6 150.0,170.0 147.4,171.6 148.1,168.6 145.7,166.6 148.8,166.4'/%3E%3Cpolygon opacity='.3' points='236.0,125.0 236.8,126.9 238.9,127.1 237.3,128.4 237.8,130.4 236.0,129.3 234.2,130.4 234.7,128.4 233.1,127.1 235.2,126.9'/%3E%3Ccircle cx='92' cy='22' r='1.4' opacity='.5'/%3E%3Ccircle cx='118' cy='96' r='1.1' opacity='.4'/%3E%3Ccircle cx='22' cy='150' r='1.6' opacity='.45'/%3E%3Ccircle cx='214' cy='196' r='1.2' opacity='.4'/%3E%3Ccircle cx='70' cy='200' r='1' opacity='.35'/%3E%3Ccircle cx='176' cy='88' r='1.5' opacity='.35'/%3E%3C/g%3E%3Cg stroke='%23fff' stroke-width='.8' opacity='.16' fill='none'%3E%3Cpath d='M92 22 L176 88 L236 128'/%3E%3Cpath d='M22 150 L118 96 L150 168'/%3E%3C/g%3E%3Cg fill='%23fff' opacity='.12' font-family='monospace' font-size='10'%3E%3Ctext x='250' y='20'%3E1%3C/text%3E%3Ctext x='250' y='34'%3E0%3C/text%3E%3Ctext x='250' y='48'%3E1%3C/text%3E%3Ctext x='6' y='96'%3E0%3C/text%3E%3Ctext x='6' y='110'%3E1%3C/text%3E%3C/g%3E%3C/svg%3E");
 
   --cream: #f3f4f6;
@@ -40,7 +56,7 @@
   --tint: rgba(17, 24, 39, 0.06);
   --tint-soft: rgba(17, 24, 39, 0.045);
   --track: rgba(17, 24, 39, 0.16);
-  --dot: rgba(17, 24, 39, 0.2);
+  --dot: rgba(239, 68, 68, 0.3);
   --accent-line: rgba(220, 38, 38, 0.45);
   --accent-line-soft: rgba(220, 38, 38, 0.35);
   --vignette-edge: rgba(148, 163, 184, 0.22);
@@ -89,5 +105,28 @@
 .intro__card .btn--accent:hover { background: #f3f4f6; border-color: #f3f4f6; }
 .intro__card .btn:focus-visible { outline-color: #fff; }
 
-/* Ders paneli: beyaz kart, üstünde ince kırmızı çizgi */
-.lesson { border-top: 3px solid var(--yzy-red); }
+/* Bölüm çubuğu: Faaliyetler sayfasındaki buzlu cam alt kategori çubuğu */
+.dock {
+  background: var(--yzy-glass-glow), var(--yzy-glass);
+  border-color: var(--yzy-glass-border);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(17, 24, 39, 0.25);
+  backdrop-filter: blur(24px) saturate(1.2);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+}
+@media (max-width: 900px) { .dock { border-radius: 24px 24px 0 0; } }
+/* kırmızı noktalar; seçili bölüm beyaz hap, koyu yazı (sitedeki seçili menü) */
+.dots button[aria-current='step'] { font-weight: 700; }
+.dots button[aria-current='step']::before { background: var(--yzy-red-500); }
+/* açık/kapalı anahtarlar sitenin ikinci rengiyle: mor */
+.toggle[aria-pressed='true'] { border-color: rgba(147, 51, 234, 0.35); }
+.toggle[aria-pressed='true'] i { background: var(--yzy-purple); }
+/* "Sadece sahne" ve ekrandaki etiketler: buzlu cam hap */
+.pill:not(.pill--home), .reveal, .tag:not(.tag--bubble):not(.tag--axis) {
+  background: var(--yzy-glass);
+  border-color: var(--yzy-glass-border);
+  box-shadow: 0 8px 20px -8px rgba(17, 24, 39, 0.25);
+}
+/* puan etiketi: haber kartlarındaki mavi etiket */
+.score { background: var(--yzy-blue-100); color: var(--yzy-blue-800); }
+.score b { color: var(--yzy-blue-800); }
