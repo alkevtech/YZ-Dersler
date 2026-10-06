@@ -45,7 +45,7 @@ function tileTexture(text, palette) {
   c.width = 512;
   c.height = 256;
   const g = c.getContext('2d');
-  g.fillStyle = '#fffaf1';
+  g.fillStyle = '#ffffff';
   g.fillRect(0, 0, 512, 256);
   g.fillStyle = palette.ink;
   g.textAlign = 'center';
@@ -75,7 +75,7 @@ export class TokenDemo extends THREE.Group {
     this.tileW = 0.78;
     this.barMat = new THREE.MeshStandardMaterial({ color: palette.terracotta, roughness: 0.55 });
     this.barMatSoft = new THREE.MeshStandardMaterial({ color: palette.terracottaSoft, roughness: 0.7 });
-    this.slotMat = new THREE.MeshStandardMaterial({ color: '#f3e2cf', roughness: 0.9 });
+    this.slotMat = new THREE.MeshStandardMaterial({ color: '#e5e7eb', roughness: 0.9 });
     this.build(0, false);
   }
 
@@ -99,7 +99,7 @@ export class TokenDemo extends THREE.Group {
       const tile = new THREE.Group();
       const base = new THREE.Mesh(
         new THREE.BoxGeometry(W, 0.12, 0.42),
-        new THREE.MeshPhysicalMaterial({ color: '#fffaf1', roughness: 0.35, clearcoat: 0.8 })
+        new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0.35, clearcoat: 0.8 })
       );
       base.castShadow = true;
       base.receiveShadow = true;

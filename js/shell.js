@@ -26,20 +26,24 @@ import { Confetti } from './confetti.js';
  * enter(ctx), exit(ctx), act(ctx), act2(ctx), onPick(ctx, point).
  */
 
+// Yapay Zekâ Yıldızları renkleri (css/lesson.css ile aynı). Adlar eski paletten
+// kaldı: terracotta ana kırmızı, cream sahne zemini, bamboo direkler, slate mavi.
 export const PALETTE = {
-  cream: '#f5eee3',
-  creamDeep: '#efe4d3',
-  ink: '#2b211b',
-  terracotta: '#c4623d',
-  terracottaSoft: '#e9c1ad',
-  porcelain: '#fbf8f2',
-  bamboo: '#d2a76d',
-  bambooDark: '#a37543',
-  sweet: '#e2557e',
-  salty: '#f0b41f',
-  slate: '#5b7c99',
+  cream: '#f3f4f6',
+  creamDeep: '#e5e7eb',
+  ink: '#111827',
+  terracotta: '#dc2626',
+  terracottaSoft: '#fecaca',
+  porcelain: '#fbfbfc',
+  bamboo: '#374151',
+  bambooDark: '#1f2937',
+  sweet: '#ec4899',
+  salty: '#ffcc00',
+  clothSalty: '#f5b800',
+  slate: '#097bbf',
+  purple: '#9333ea',
   cheek: '#f0908e',
-  green: '#3f8a5b',
+  green: '#0b9150',
 };
 
 export { THREE, Ease, rand, pick, clamp };
@@ -121,7 +125,7 @@ export function createLesson(lesson) {
   controls.maxDistance = 45; // phones frame from further away
   controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_ROTATE };
 
-  const key = new THREE.DirectionalLight('#fff0dc', 2.3);
+  const key = new THREE.DirectionalLight('#fff8f2', 2.3);
   key.position.set(-3.5, 8, 5);
   key.castShadow = true;
   const sm = isMobile ? 1024 : 2048;
@@ -132,7 +136,7 @@ export function createLesson(lesson) {
   if ('intensity' in key.shadow) key.shadow.intensity = 0.7;
   key.target.position.set(1, 0, 0);
   scene.add(key, key.target);
-  scene.add(new THREE.HemisphereLight('#fff9ef', '#e2c4a2', 0.55));
+  scene.add(new THREE.HemisphereLight('#ffffff', '#d1d5db', 0.55));
   const rim = new THREE.DirectionalLight('#dde7ff', 0.7);
   rim.position.set(5, 5, -6);
   scene.add(rim);
@@ -150,7 +154,7 @@ export function createLesson(lesson) {
   const bidik = new Bidik({ mouths, palette: PALETTE });
   bidik.position.set(1.9, 0, 1.7);
   scene.add(bidik);
-  const confetti = new Confetti([PALETTE.terracotta, PALETTE.sweet, PALETTE.salty, PALETTE.slate, '#ffffff']);
+  const confetti = new Confetti([PALETTE.terracotta, PALETTE.sweet, PALETTE.salty, PALETTE.slate, PALETTE.purple, '#ffffff']);
   scene.add(confetti);
 
   // ---------------------------------------------------------------- labels
@@ -296,7 +300,7 @@ export function createLesson(lesson) {
     const w = c.width;
     const h = c.height;
     g.clearRect(0, 0, w, h);
-    g.strokeStyle = 'rgba(43,33,27,0.12)';
+    g.strokeStyle = 'rgba(17,24,39,0.12)';
     g.beginPath();
     g.moveTo(0, h - 1);
     g.lineTo(w, h - 1);

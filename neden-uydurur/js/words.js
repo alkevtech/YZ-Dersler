@@ -15,7 +15,7 @@ function textTexture(text, palette, opts = {}) {
   c.width = 512;
   c.height = 256;
   const g = c.getContext('2d');
-  g.fillStyle = opts.bg || '#fffaf1';
+  g.fillStyle = opts.bg || '#ffffff';
   g.fillRect(0, 0, 512, 256);
   g.fillStyle = opts.ink || palette.ink;
   g.textAlign = 'center';
@@ -46,9 +46,9 @@ export class WordScene extends THREE.Group {
     this.barMat = new THREE.MeshStandardMaterial({ color: palette.terracotta, roughness: 0.55 });
     this.barMatSoft = new THREE.MeshStandardMaterial({ color: palette.terracottaSoft, roughness: 0.7 });
     this.barMatPick = new THREE.MeshStandardMaterial({ color: palette.green, roughness: 0.55 });
-    this.slotMat = new THREE.MeshStandardMaterial({ color: '#f3e2cf', roughness: 0.9 });
-    this.tileMat = new THREE.MeshPhysicalMaterial({ color: '#fffaf1', roughness: 0.35, clearcoat: 0.8 });
-    this.dotsMat = new THREE.MeshPhysicalMaterial({ color: '#efe4d3', roughness: 0.5 });
+    this.slotMat = new THREE.MeshStandardMaterial({ color: '#e5e7eb', roughness: 0.9 });
+    this.tileMat = new THREE.MeshPhysicalMaterial({ color: '#ffffff', roughness: 0.35, clearcoat: 0.8 });
+    this.dotsMat = new THREE.MeshPhysicalMaterial({ color: '#e5e7eb', roughness: 0.5 });
     // a soft round mat under everything, so the "table" reads as a table
     const mat = new THREE.Mesh(new THREE.CircleGeometry(4.2, 64), new THREE.MeshStandardMaterial({ color: palette.creamDeep, roughness: 0.95 }));
     mat.rotation.x = -Math.PI / 2;
@@ -83,7 +83,7 @@ export class WordScene extends THREE.Group {
       base.receiveShadow = true;
       const face = new THREE.Mesh(
         new THREE.PlaneGeometry(W * 0.94, 0.4 * 0.94),
-        new THREE.MeshBasicMaterial({ map: textTexture(word, this.palette, isDots ? { bg: '#efe4d3' } : {}), transparent: true })
+        new THREE.MeshBasicMaterial({ map: textTexture(word, this.palette, isDots ? { bg: '#e5e7eb' } : {}), transparent: true })
       );
       face.rotation.x = -Math.PI / 2;
       face.position.y = 0.062;
@@ -171,7 +171,7 @@ export class Book extends THREE.Group {
     super();
     this.name = 'book';
     const cover = new THREE.MeshStandardMaterial({ color: palette.slate, roughness: 0.6 });
-    const pages = new THREE.MeshStandardMaterial({ color: '#fbf8f2', roughness: 0.9 });
+    const pages = new THREE.MeshStandardMaterial({ color: '#fbfbfc', roughness: 0.9 });
     const w = 1.1;
     const d = 1.45;
     const back = new THREE.Mesh(new THREE.BoxGeometry(w, 0.04, d), cover);
@@ -184,7 +184,7 @@ export class Book extends THREE.Group {
     spine.position.set(-w / 2 + 0.01, 0.15, 0);
     const label = new THREE.Mesh(
       new THREE.PlaneGeometry(0.8, 0.4),
-      new THREE.MeshBasicMaterial({ map: textTexture(title, palette, { bg: '#fbf8f2', size: 64 }), transparent: true })
+      new THREE.MeshBasicMaterial({ map: textTexture(title, palette, { bg: '#fbfbfc', size: 64 }), transparent: true })
     );
     label.rotation.x = -Math.PI / 2;
     label.position.set(0.05, 0.302, 0.05);

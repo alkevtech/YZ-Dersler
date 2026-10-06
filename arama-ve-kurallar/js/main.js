@@ -57,7 +57,7 @@ createLesson({
     const salty = new THREE.Color(PALETTE.salty);
     const pathColor = new THREE.Color(PALETTE.terracotta);
     const trailColor = new THREE.Color(PALETTE.slate).lerp(new THREE.Color('#ffffff'), 0.55);
-    const cloth = new THREE.Color('#efe4d3');
+    const cloth = new THREE.Color('#e5e7eb');
     const ringColor = (t) => new THREE.Color().lerpColors(salty, sweet, t).lerp(cloth, 0.28);
 
     // returned fields are copied onto ctx, so methods read state through `c`

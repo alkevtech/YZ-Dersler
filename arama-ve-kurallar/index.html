@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Her yapay zeka öğrenir mi? — YZ Dersler</title>
   <meta name="description" content="Her iş öğrenme ister mi? İnsanın yazdığı kurallar, labirentte en kısa yolu bulan arama ve hangi işe hangi yöntem. Ortaokul için etkileşimli ek ders." />
-  <meta name="theme-color" content="#f5eee3" />
+  <meta name="theme-color" content="#830201" />
   <meta property="og:title" content="Her yapay zeka öğrenir mi?" />
   <meta property="og:description" content="Bıdık'la kurallar ve arama. Beş kısa bölüm, mutfak labirenti ve bilgi testi." />
   <meta property="og:type" content="website" />
@@ -17,11 +17,11 @@
     /* lesson-local styles: rule cards */
     .rule-ex { margin: 0 0 8px; font-size: 15px; color: var(--ink-soft); }
     .rules-list { display: grid; gap: 6px; }
-    .rule { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); background: #fff; font-size: 15px; transition: background 0.25s, border-color 0.25s; }
-    .rule__n { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: rgba(43, 33, 27, 0.07); font-size: 12.5px; font-weight: 700; }
+    .rule { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-size: 15px; transition: background 0.25s, border-color 0.25s; }
+    .rule__n { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--tint); font-size: 12.5px; font-weight: 700; }
     .rule__r { font-weight: 700; font-size: 14px; white-space: nowrap; }
-    .rule.is-hit { background: #e8f3ea; border-color: #3f8a5b; }
-    .rule.is-hit .rule__r { color: #3f8a5b; }
+    .rule.is-hit { background: #e7f6ee; border-color: var(--good); }
+    .rule.is-hit .rule__r { color: var(--good); }
     .rule.is-miss { opacity: 0.6; }
     .rule.is-miss .rule__r { color: var(--ink-soft); }
     @media (min-width: 1180px) { .rule { font-size: 16px; } }

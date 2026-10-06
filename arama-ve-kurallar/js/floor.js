@@ -21,9 +21,9 @@ export class MazeFloor extends THREE.Group {
     const tileMat = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.85 });
     this.tiles = new THREE.InstancedMesh(tileGeo, tileMat, n);
     this.tiles.receiveShadow = true;
-    this.baseA = new THREE.Color('#f4ebdc');
-    this.baseB = new THREE.Color('#ebdfcb');
-    this.startColor = new THREE.Color('#cfe5d3');
+    this.baseA = new THREE.Color('#f9fafb');
+    this.baseB = new THREE.Color('#eceef1');
+    this.startColor = new THREE.Color('#c6ecd6');
     this.tints = new Array(n).fill(null);
     for (let k = 0; k < n; k++) {
       const [i, j] = cellOf(grid, k);
@@ -55,7 +55,7 @@ export class MazeFloor extends THREE.Group {
     this.add(this.walls);
     // little handles so the cabinets read as cabinets
     const handleGeo = new THREE.SphereGeometry(0.035, 10, 8);
-    const handleMat = new THREE.MeshStandardMaterial({ color: '#f5e6c8', roughness: 0.4, metalness: 0.3 });
+    const handleMat = new THREE.MeshStandardMaterial({ color: '#e5e7eb', roughness: 0.4, metalness: 0.3 });
     this.handles = new THREE.InstancedMesh(handleGeo, handleMat, n);
     this.handles.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     this.add(this.handles);

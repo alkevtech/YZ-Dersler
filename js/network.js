@@ -101,7 +101,7 @@ export class Network3D extends THREE.Group {
 
     // pulses
     this.pulses = [];
-    this.pulseMat = new THREE.SpriteMaterial({ map: softDot, color: '#ffd9a8', transparent: true, depthWrite: false, opacity: 0.95 });
+    this.pulseMat = new THREE.SpriteMaterial({ map: softDot, color: '#ffe27a', transparent: true, depthWrite: false, opacity: 0.95 });
     this.pulseMatBack = new THREE.SpriteMaterial({ map: softDot, color: '#3d8bff', transparent: true, depthWrite: false, opacity: 1 });
     this.pool = [];
     for (let k = 0; k < (this.manyInputs ? 120 : 40); k++) {
@@ -191,7 +191,7 @@ export class Network3D extends THREE.Group {
       }
     }
 
-    const warm = new THREE.Color('#ffb073');
+    const warm = new THREE.Color('#ffcc00');
     const apply = (mesh, g) => {
       mesh.material.emissive.copy(warm).multiplyScalar(g * 0.6);
       mesh.material.color.copy(new THREE.Color(this.palette.porcelain)).lerp(warm, g * 0.3);
