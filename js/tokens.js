@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 
 /**
- * Next-word prediction demo: word tiles on the table and terracotta bars
- * showing the model's probabilities for the next word. Canned data — the
- * point is the shape of the idea, not a real language model.
+ * Next-word prediction demo: word tiles on the table and red bars showing the
+ * model's probabilities for the next word. The student (or Bıdık, always the
+ * most likely word) picks each word. Canned data — the point is the shape of
+ * the idea, not a real language model; every candidate fits every sentence.
  */
+export const START = ['Mantı', 'en', 'güzel'];
 export const STORY = [
   {
-    prompt: ['Mantı', 'en', 'güzel'],
     candidates: [
       ['yoğurtla', 0.58],
       ['sarımsakla', 0.22],
@@ -17,17 +18,15 @@ export const STORY = [
     ],
   },
   {
-    prompt: ['Mantı', 'en', 'güzel', 'yoğurtla'],
     candidates: [
       ['yenir', 0.64],
       ['buluşur', 0.15],
-      ['servis', 0.12],
+      ['sunulur', 0.12],
       ['tanışır', 0.08],
       ['uçar', 0.01],
     ],
   },
   {
-    prompt: ['Mantı', 'en', 'güzel', 'yoğurtla', 'yenir'],
     candidates: [
       ['.', 0.71],
       [',', 0.18],
@@ -36,8 +35,8 @@ export const STORY = [
       ['!', 0.01],
     ],
   },
-  // the sentence is finished: the most likely next "word" was the full stop
-  { prompt: ['Mantı', 'en', 'güzel', 'yoğurtla', 'yenir', '.'], candidates: [] },
+  // the sentence is finished
+  { candidates: [] },
 ];
 
 function tileTexture(text, palette) {
@@ -71,6 +70,7 @@ export class TokenDemo extends THREE.Group {
     this.tiles = [];
     this.bars = [];
     this.stage = 0;
+    this.picks = []; // { word, p, top } for every word chosen so far
     this.visible = false;
     this.tileW = 0.78;
     this.barMat = new THREE.MeshStandardMaterial({ color: palette.terracotta, roughness: 0.55 });
@@ -89,7 +89,7 @@ export class TokenDemo extends THREE.Group {
   build(stage, animate = true) {
     this.clear();
     this.stage = stage;
-    const s = STORY[stage];
+    const s = { prompt: this.prompt, candidates: STORY[stage].candidates };
     // a long sentence gets narrower tiles so the whole line stays on the table
     const W = s.prompt.length > 5 ? 0.64 : this.tileW;
     const gap = 0.12;
@@ -156,14 +156,30 @@ export class TokenDemo extends THREE.Group {
     this.time = 0;
   }
 
-  /** Accept the most likely word and move to the next stage (loops). */
-  /** True when the story has reached its full stop. */
+  /** The sentence so far: the start and the words chosen up to this stage. */
+  get prompt() {
+    return [...START, ...this.picks.slice(0, this.stage).map((k) => k.word)];
+  }
+
+  /** True when the sentence has all its words. */
   get finished() {
     return STORY[this.stage].candidates.length === 0;
   }
 
-  next() {
-    this.build((this.stage + 1) % STORY.length, true);
+  /** Add a word (the most likely one when none is given) and move on; a
+   *  finished sentence starts over (lesson 07 steps through it this way). */
+  next(word) {
+    if (this.finished) return this.reset();
+    const c = STORY[this.stage].candidates;
+    const pick = c.find(([w]) => w === word) || c[0];
+    this.picks = [...this.picks.slice(0, this.stage), { word: pick[0], p: pick[1], top: pick === c[0] }];
+    this.build(this.stage + 1, true);
+  }
+
+  /** Back to the start of the sentence. */
+  reset(animate = true) {
+    this.picks = [];
+    this.build(0, animate);
   }
 
   get candidates() {
