@@ -38,8 +38,8 @@ export const STEPS = [
     title: 'Bıdık\'ın kafasının içine bakalım',
     body: `
       <p>Hazır mısın? Bıdık'ın kafasının içi işte böyle. Mantının boyu ve pişme süresi soldan giriyor. Ortadaki sekiz <b>yardımcı</b> bu iki sayıyı dinleyip kendi aralarında fısıldaşıyor. En sağdaki yardımcı da son sözü söylüyor: <i>tam kıvamında mı?</i></p>
-      <p>Yardımcıları bağlayan <b>ipleri</b> gördün mü? Her ip bir fısıltı taşıyor. Kalın ip, güçlü fısıltı demek. <span class="salty2">Kiremit rengi ip</span> fısıltıyı olduğu gibi iletiyor: "artır!" <span class="slate">Mavi ip</span> ise tersine çeviriyor: "azalt!" Şu anda ipler rastgele ayarlanmış; Bıdık daha hiçbir şey bilmiyor. Ama merak etme, az sonra öğrenecek.</p>
-      ${teacher('<p>Bu bir <b>yapay sinir ağı</b>: 2 giriş, 8 düğümlü bir gizli katman, 1 çıkış. İpler <b>ağırlık</b>tır (2·8 + 8 = 24 tane); ayrıca gizli ve çıkış düğümlerinin her birinde bir <b>sapma</b> (bias) değeri vardır (9 tane). Toplam 33 <b>parametre</b>. İpin kalınlığı ağırlığın büyüklüğünü, rengi işaretini gösterir: kiremit = pozitif, mavi = negatif. Başlangıçta hepsi rastgeledir.</p>')}`,
+      <p>Yardımcıları bağlayan <b>ipleri</b> gördün mü? Her ip bir fısıltı taşıyor. Kalın ip, güçlü fısıltı demek. <span class="salty2">Kırmızı ip</span> fısıltıyı olduğu gibi iletiyor: "artır!" <span class="slate">Mavi ip</span> ise tersine çeviriyor: "azalt!" Şu anda ipler rastgele ayarlanmış; Bıdık daha hiçbir şey bilmiyor. Ama merak etme, az sonra öğrenecek.</p>
+      ${teacher('<p>Bu bir <b>yapay sinir ağı</b>: 2 giriş, 8 düğümlü bir gizli katman, 1 çıkış. İpler <b>ağırlık</b>tır (2·8 + 8 = 24 tane); ayrıca gizli ve çıkış düğümlerinin her birinde bir <b>sapma</b> (bias) değeri vardır (9 tane). Toplam 33 <b>parametre</b>. İpin kalınlığı ağırlığın büyüklüğünü, rengi işaretini gösterir: kırmızı = pozitif, mavi = negatif. Başlangıçta hepsi rastgeledir.</p>')}`,
     focus: 'network',
     say: 'İplerim dolaşmış! Kafam karıştı, ne yapacağım şimdi?',
     mood: 'worried',

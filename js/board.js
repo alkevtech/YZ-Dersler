@@ -26,7 +26,7 @@ export class Board extends THREE.Group {
     this.sweet = new THREE.Color(palette.sweet);
     this.salty = new THREE.Color(palette.salty);
     this.clothSweet = new THREE.Color(palette.sweet).lerp(new THREE.Color('#ffffff'), 0.1);
-    this.clothSalty = new THREE.Color('#e4a114');
+    this.clothSalty = new THREE.Color(palette.clothSalty || '#e4a114');
     this.sweetDough = new THREE.Color(palette.sweet).lerp(new THREE.Color('#ffffff'), 0.08);
     this.saltyDough = new THREE.Color(palette.salty).lerp(new THREE.Color('#ffffff'), 0.05);
     this.predictions = new Float32Array(tiles * tiles).fill(0.5);
