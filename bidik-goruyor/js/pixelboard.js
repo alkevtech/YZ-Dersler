@@ -15,7 +15,7 @@ export class PixelBoard extends THREE.Group {
     this.cell = size / SIZE;
     this.values = new Float32Array(PIXELS); // target 0/1
     this.shown = new Float32Array(PIXELS); // animated
-    this.off = new THREE.Color('#fffdf8');
+    this.off = new THREE.Color('#ffffff');
     this.on = new THREE.Color(palette.ink);
     this.time = 0;
 

@@ -9,7 +9,7 @@ import { ARMS } from './bandit.js';
  * per dumpling size). Same bar recipe as js/tokens.js.
  */
 
-function textTexture(text, { color = '#2b211b', size = 88, w = 256, h = 128, weight = 600 } = {}) {
+function textTexture(text, { color = '#111827', size = 88, w = 256, h = 128, weight = 600 } = {}) {
   const c = document.createElement('canvas');
   c.width = w;
   c.height = h;
@@ -45,11 +45,11 @@ export class Stove extends THREE.Group {
     this.cookT = 0;
     this.time = 0;
 
-    const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.55, 1.1), new THREE.MeshStandardMaterial({ color: '#f7f0e5', roughness: 0.5 }));
+    const body = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.55, 1.1), new THREE.MeshStandardMaterial({ color: '#f9fafb', roughness: 0.5 }));
     body.position.y = 0.275;
     body.castShadow = true;
     body.receiveShadow = true;
-    const top = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.04, 1.1), new THREE.MeshStandardMaterial({ color: '#3a322f', roughness: 0.6, metalness: 0.2 }));
+    const top = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.04, 1.1), new THREE.MeshStandardMaterial({ color: '#1f2937', roughness: 0.6, metalness: 0.2 }));
     top.position.y = 0.57;
     top.receiveShadow = true;
     const feet = new THREE.Group();
@@ -61,7 +61,7 @@ export class Stove extends THREE.Group {
     this.add(body, top, feet);
 
     // burner ring + glow, pot on a trivet
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.03, 10, 40), new THREE.MeshStandardMaterial({ color: '#2b211b', roughness: 0.5, metalness: 0.4 }));
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.3, 0.03, 10, 40), new THREE.MeshStandardMaterial({ color: '#111827', roughness: 0.5, metalness: 0.4 }));
     ring.rotation.x = Math.PI / 2;
     ring.position.set(0.15, 0.6, 0);
     this.flame = new THREE.Mesh(new THREE.RingGeometry(0.16, 0.31, 40), new THREE.MeshBasicMaterial({ color: '#ff8a3d', transparent: true, opacity: 0, side: THREE.DoubleSide }));
@@ -82,7 +82,7 @@ export class Stove extends THREE.Group {
       leg.position.set(x, 0.63, z);
       this.add(leg);
     }
-    const handleMat = new THREE.MeshStandardMaterial({ color: '#2b211b', roughness: 0.6 });
+    const handleMat = new THREE.MeshStandardMaterial({ color: '#111827', roughness: 0.6 });
     for (const s of [-1, 1]) {
       const h = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.018, 8, 20, Math.PI), handleMat);
       h.position.set(0.15 + s * 0.44, 0.9, 0);
@@ -110,10 +110,10 @@ export class Stove extends THREE.Group {
     // the minute dial on the front
     const dial = new THREE.Group();
     dial.position.set(-0.42, 0.3, 0.55);
-    const face = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.05, 40), new THREE.MeshStandardMaterial({ color: '#fffaf1', roughness: 0.4 }));
+    const face = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.05, 40), new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.4 }));
     face.rotation.x = Math.PI / 2;
     dial.add(face);
-    const tickMat = new THREE.MeshStandardMaterial({ color: '#2b211b', roughness: 0.6 });
+    const tickMat = new THREE.MeshStandardMaterial({ color: '#111827', roughness: 0.6 });
     for (let m = 1; m <= ARMS; m++) {
       const t = new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.03, 0.01), tickMat);
       const a = this.angleFor(m);
@@ -222,7 +222,7 @@ export class ValueBars extends THREE.Group {
     this.rowGap = 1.0;
     this.rowsShown = 1;
     this.rows = [];
-    const slotColor = new THREE.Color('#f3e2cf');
+    const slotColor = new THREE.Color('#e5e7eb');
     for (let r = 0; r < rows; r++) {
       const row = new THREE.Group();
       row.position.z = -r * this.rowGap;
@@ -230,7 +230,7 @@ export class ValueBars extends THREE.Group {
       for (let a = 0; a < ARMS; a++) {
         const g = new THREE.Group();
         g.position.x = a * this.spacing - ((ARMS - 1) * this.spacing) / 2;
-        const slab = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.03, 0.32), new THREE.MeshStandardMaterial({ color: '#e8d9c5', roughness: 0.9 }));
+        const slab = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.03, 0.32), new THREE.MeshStandardMaterial({ color: '#d1d5db', roughness: 0.9 }));
         slab.position.y = 0.015;
         slab.receiveShadow = true;
         const mat = new THREE.MeshStandardMaterial({ color: slotColor, roughness: 0.55, emissive: '#000000' });
@@ -267,7 +267,7 @@ export class ValueBars extends THREE.Group {
     if (!row) return;
     const hot = new THREE.Color(this.palette.terracotta);
     const soft = new THREE.Color(this.palette.terracottaSoft);
-    const empty = new THREE.Color('#f3e2cf');
+    const empty = new THREE.Color('#e5e7eb');
     row.items.forEach((it, a) => {
       it.h = Math.max(0.02, Q[a] * this.maxH);
       const text = N[a] ? `%${Math.round(Q[a] * 100)}` : '·';
@@ -275,7 +275,7 @@ export class ValueBars extends THREE.Group {
         it.text = text;
         const g = it.pctTex.canvas.getContext('2d');
         g.clearRect(0, 0, 256, 128);
-        g.fillStyle = N[a] ? this.palette.ink : '#b8a48f';
+        g.fillStyle = N[a] ? this.palette.ink : '#9ca3af';
         g.textAlign = 'center';
         g.textBaseline = 'middle';
         g.font = '600 64px Fraunces, Georgia, serif';
@@ -295,7 +295,7 @@ export class ValueBars extends THREE.Group {
     const it = this.rows[r]?.items[a];
     if (!it) return;
     it.pulse = 1;
-    it.pulseColor.set(reward ? '#ff9a6a' : '#8a8078');
+    it.pulseColor.set(reward ? '#ffcc00' : '#9ca3af');
   }
 
   /** World position above bar a of row r (for labels). */

@@ -12,7 +12,7 @@ import { Bidik } from '../../js/bidik.js';
 import { Confetti } from '../../js/confetti.js';
 import { STEPS, QUIZ } from './steps.js';
 
-// Yapay Zekâ Yıldızları renkleri (css/theme-yzy.css ile aynı)
+// Yapay Zekâ Yıldızları renkleri (js/shell.js'teki PALETTE ile aynı)
 const PALETTE = {
   cream: '#f3f4f6',
   creamDeep: '#e5e7eb',

@@ -29,9 +29,9 @@ export function trueLabel(size, time) {
 }
 
 export const CHEFS = [
-  { id: 'ayse', name: 'Ayşe Usta', short: 'Ayşe', range: [0.05, 0.35], color: '#3f8a5b', label: 'küçük' },
-  { id: 'kemal', name: 'Kemal Usta', short: 'Kemal', range: [0.35, 0.65], color: '#5b7c99', label: 'orta' },
-  { id: 'deniz', name: 'Deniz Usta', short: 'Deniz', range: [0.65, 0.95], color: '#8a5bb0', label: 'büyük' },
+  { id: 'ayse', name: 'Ayşe Usta', short: 'Ayşe', range: [0.05, 0.35], color: '#0b9150', label: 'küçük' },
+  { id: 'kemal', name: 'Kemal Usta', short: 'Kemal', range: [0.35, 0.65], color: '#097bbf', label: 'orta' },
+  { id: 'deniz', name: 'Deniz Usta', short: 'Deniz', range: [0.65, 0.95], color: '#9333ea', label: 'büyük' },
 ];
 
 /**

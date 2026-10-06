@@ -51,7 +51,7 @@ createLesson({
     // red rings under wrongly predicted test dishes
     const marks = new THREE.Group();
     const ringGeo = new THREE.TorusGeometry(0.13, 0.014, 8, 36);
-    const ringMat = new THREE.MeshBasicMaterial({ color: '#c8322b' });
+    const ringMat = new THREE.MeshBasicMaterial({ color: '#dc2626' });
     for (let i = 0; i < test.length; i++) {
       const m = new THREE.Mesh(ringGeo, ringMat);
       m.rotation.x = -Math.PI / 2;

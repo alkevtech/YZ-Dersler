@@ -15,7 +15,7 @@ export const PALETTE = {
   dough: '#f6e7d2',
   filling: '#c7745a',
   cheek: '#f0908e',
-  eye: '#2a1d18',
+  eye: '#111827',
 };
 
 export const MODEL_URL = './assets/models/dumpling.glb';
