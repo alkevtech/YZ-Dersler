@@ -69,7 +69,7 @@ inişi (öğrenme hızı 1,2, 600 adım). Masanın gizli kuralı: ideal pişme s
 | --- | --- |
 | 1. İki masa | Eğitim ve test kümesi; sınav mantıları antrenmanda görülmez |
 | 2. Az örnek | 6 mantıyla 600 adım: antrenmanda %100, sınavda ~%78 |
-| 3. Ezber | Sınav masasındaki yanlışlar kırmızı halkayla; "Başka 6 mantı seç": antrenman hep %100, sınav %50–84 |
+| 3. Ezber | Sınav masasındaki yanlışlar kırmızı halkayla; "Başka 6 mantı seç": antrenman neredeyse hep %100, sınav çoğunlukla %50–90 |
 | 4. Çok örnek | 64 mantıyla iki masa da %100; kaydırıcıyla örnek sayısı deneyi, sonuçlar tabloda (32 mantıda sınav %94) |
 | 5. Yanlış etiket | Etiketlerin %25'i ters (mor halkalı): iki masada da puan düşer; veri kalitesi |
 | 6. Bilgi testi | Altı soru |

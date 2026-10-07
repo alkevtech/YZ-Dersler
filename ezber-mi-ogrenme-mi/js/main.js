@@ -6,7 +6,7 @@ import { STEPS, QUIZ } from './steps.js';
 
 const FOCUS = {
   // tablets: a step back and to the left, so both tables sit right of the panel
-  overview: { target: new THREE.Vector3(0.8, 0.45, -0.3), dist: 12.0, az: 0.18, el: 0.98, bidik: [0.7, 2.4], mid: { target: new THREE.Vector3(0.15, 0.45, -0.3), dist: 15.5 } },
+  overview: { target: new THREE.Vector3(0.8, 0.45, -0.3), dist: 12.0, az: 0.18, el: 0.98, bidik: [0.7, 2.4], mid: { target: new THREE.Vector3(0.2, 0.45, -0.3), dist: 19 } },
   train: { target: new THREE.Vector3(-1.1, 0.2, 0.2), dist: 6.9, az: 0.12, el: 1.0, bidik: [0.95, 2.05] },
   test: { target: new THREE.Vector3(2.5, 0.2, 0.2), dist: 6.2, az: 0.1, el: 1.0, bidik: [0.6, 2.0] },
   network: { target: new THREE.Vector3(1.05, 1.15, -2.6), dist: 6.9, az: 0.18, el: 1.2, bidik: [2.6, -2.7] },
@@ -164,11 +164,11 @@ createLesson({
         c.sixTries = [...c.sixTries, pb].slice(-7);
         c.readout(
           `<span class="big">Başka 6 mantı: antrenman %${pa} · sınav %${pb}</span>` +
-            `Sınav puanları: ${c.sixTries.map((v) => `<b>%${v}</b>`).join(' → ')}. Antrenmanda hep tam puan; ama sınav puanı da örtüdeki harita da Bıdık'ın hangi 6 mantıyı gördüğüne göre değişiyor.`
+            `Sınav puanları: ${c.sixTries.map((v) => `<b>%${v}</b>`).join(' → ')}. ${pa === 100 ? 'Antrenmanda yine tam puan' : `Antrenmanda bu sefer %${pa}`}; ama sınav puanı da örtüdeki harita da Bıdık'ın hangi 6 mantıyı gördüğüne göre değişiyor.`
         );
         sound.play('boing', { volume: 0.5 });
         bidik.react(pb >= 80 ? 'happy' : 'worried', 2);
-        c.say(`Yine hepsini ezberledim ama sınavda %${pb}. Haritam bambaşka oldu!`, 4);
+        c.say(pa === 100 ? `Yine hepsini ezberledim ama sınavda %${pb}. Haritam bambaşka oldu!` : `Bu 6 mantıyı ezberleyemedim bile! Sınavda %${pb}.`, 4);
       },
       recordRun(n, pa, pb) {
         c.runs = [...c.runs.filter((r) => r.n !== n), { n, pa, pb }].sort((a, b) => a.n - b.n);
