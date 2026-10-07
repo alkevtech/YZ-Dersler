@@ -15,14 +15,21 @@ GitHub Pages ile yayınlanır: <https://hakanatas.github.io/YZ-Dersler/>
 | 01 | Yapay zeka nasıl çalışır? | <https://hakanatas.github.io/YZ-Dersler/YZ-nasil-calisir/> |
 | 02 | Ezber mi, öğrenme mi? | <https://hakanatas.github.io/YZ-Dersler/ezber-mi-ogrenme-mi/> |
 | 03 | Bıdık kimin mantısını tattı? | <https://hakanatas.github.io/YZ-Dersler/adil-mi/> |
-| 04 | Sohbet robotu neden uydurur? | <https://hakanatas.github.io/YZ-Dersler/neden-uydurur/> |
-| 05 | Bıdık görüyor | <https://hakanatas.github.io/YZ-Dersler/bidik-goruyor/> |
-| 06 | Bıdık ödülle öğreniyor | <https://hakanatas.github.io/YZ-Dersler/odulle-ogrenmek/> |
-| 07 | Ne yapabilir, ne yapamaz? (kapanış) | <https://hakanatas.github.io/YZ-Dersler/kapanis/> |
-| Ek | Her yapay zeka öğrenir mi? Kurallar ve arama (isteğe bağlı, 07'den sonra) | <https://hakanatas.github.io/YZ-Dersler/arama-ve-kurallar/> |
+| 04 | Sohbet robotu neden uydurur? (hazırlanıyor) | <https://hakanatas.github.io/YZ-Dersler/neden-uydurur/> |
+| 05 | Bıdık görüyor (hazırlanıyor) | <https://hakanatas.github.io/YZ-Dersler/bidik-goruyor/> |
+| 06 | Bıdık ödülle öğreniyor (hazırlanıyor) | <https://hakanatas.github.io/YZ-Dersler/odulle-ogrenmek/> |
+| 07 | Ne yapabilir, ne yapamaz? (kapanış) (hazırlanıyor) | <https://hakanatas.github.io/YZ-Dersler/kapanis/> |
+| Ek | Her yapay zeka öğrenir mi? Kurallar ve arama (isteğe bağlı, 07'den sonra) (hazırlanıyor) | <https://hakanatas.github.io/YZ-Dersler/arama-ve-kurallar/> |
 
 `.github/workflows/pages.yml` iş akışı `main` dalına her gönderimde siteyi
 yeniden yayınlar.
+
+Şu an yayında olan dersler 01–03. Diğerleri hazırlanıyor: canlı sitede
+adreslerinde "Bu ders hazırlanıyor" sayfası (`.github/hazirlaniyor.html`)
+görünür, dosyaları depoda olduğu gibi durur ve yerelde açılır. Bir dersi
+yayına almak için adını `pages.yml` içindeki `HAZIRLANIYOR` listesinden silin,
+giriş sayfasındaki kartını (`index.html`, `card--soon`) bağlantılı karta
+çevirin ve öğretmen kılavuzundaki bölümünün `hidden` özniteliğini kaldırın.
 
 ## Çalıştırma
 
@@ -69,9 +76,9 @@ inişi (öğrenme hızı 1,2, 600 adım). Masanın gizli kuralı: ideal pişme s
 | --- | --- |
 | 1. İki masa | Eğitim ve test kümesi; sınav mantıları antrenmanda görülmez |
 | 2. Az örnek | 6 mantıyla 600 adım: antrenmanda %100, sınavda ~%78 |
-| 3. Ezber | Sınav masasındaki yanlışlar kırmızı halkayla; aşırı öğrenme |
-| 4. Çok örnek | 64 mantıyla iki masa da %100; kaydırıcıyla örnek sayısı deneyi |
-| 5. Yanlış etiket | Etiketlerin %25'i ters: iki masada da puan düşer; veri kalitesi |
+| 3. Ezber | Sınav masasındaki yanlışlar kırmızı halkayla; "Başka 6 mantı seç": antrenman neredeyse hep %100, sınav çoğunlukla %50–90 |
+| 4. Çok örnek | 64 mantıyla iki masa da %100; kaydırıcıyla örnek sayısı deneyi, sonuçlar tabloda (32 mantıda sınav %94) |
+| 5. Yanlış etiket | Etiketlerin %25'i ters (mor halkalı): iki masada da puan düşer; veri kalitesi |
 | 6. Bilgi testi | Altı soru |
 
 ## Ders 03 · Bıdık kimin mantısını tattı?

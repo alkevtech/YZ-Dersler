@@ -28,9 +28,19 @@ jobs:
         with:
           enablement: true
       - name: Prepare site
+        env:
+          # lessons that are not published yet: their address shows "Bu ders
+          # hazırlanıyor" (.github/hazirlaniyor.html); remove a name to publish it
+          HAZIRLANIYOR: neden-uydurur bidik-goruyor odulle-ogrenmek kapanis arama-ve-kurallar
         run: |
           mkdir -p _site
           rsync -a --exclude '.git' --exclude '.github' --exclude '_site' --exclude 'serve.mjs' ./ _site/
+          for lesson in $HAZIRLANIYOR; do
+            test -d "_site/$lesson" || { echo "unknown lesson: $lesson"; exit 1; }
+            rm -rf "_site/$lesson"
+            mkdir "_site/$lesson"
+            cp .github/hazirlaniyor.html "_site/$lesson/index.html"
+          done
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:

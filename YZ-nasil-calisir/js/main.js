@@ -57,6 +57,7 @@ const dom = {
   guessSweet: $('#guess-sweet'),
   guessSalty: $('#guess-salty'),
   readout: $('#readout'),
+  tokenChoices: $('#token-choices'),
   score: $('#score'),
   action: $('#btn-action'),
   action2: $('#btn-action2'),
@@ -74,6 +75,21 @@ const canvas = dom.canvas;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 900;
 const state = { step: -1, autoplay: false, sound: false, training: false, uiHidden: false, autoTimer: 0, score: { you: 0, bidik: 0 }, quizDone: false };
+
+/** Turkish decimals: 0,64 */
+const num = (v, d = 2) => v.toFixed(d).replace('.', ',');
+
+/** Show a result under the text. A result the student asked for is brought into
+ *  the panel's view (same as js/shell.js); one shown as a chapter opens is not,
+ *  so the title and text stay in view. */
+function showReadout(html) {
+  dom.readout.hidden = !html;
+  dom.readout.innerHTML = html || '';
+  const asked = (state.actedAt || 0) > (state.enteredAt || 0);
+  if (html && asked && window.innerWidth > 900 && !dom.lesson.classList.contains('is-collapsed')) {
+    requestAnimationFrame(() => dom.readout.scrollIntoView({ block: 'nearest', behavior: reducedMotion ? 'auto' : 'smooth' }));
+  }
+}
 
 let toastTimer = 0;
 function toast(msg, ms = 2600) {
@@ -275,8 +291,7 @@ const ctx = {
       const rows = data
         .map((d, i) => `<div>${String(i + 1).padStart(2, '0')}. boy ${d.x[0].toFixed(2).replace('.', ',')} · süre ${(d.x[1] * MINUTES).toFixed(1).replace('.', ',')} dk → ${d.y}</div>`)
         .join('');
-      dom.readout.hidden = false;
-      dom.readout.innerHTML = `<span class="big">Bıdık'ın gördüğü: ${data.length} satır sayı</span>Örtü yok, renk yok. Her mantı iki sayı ve bir etiket (1 = kıvamında, 0 = olmamış). Desen burada görünüyor mu?<div class="corpus">${rows}</div>`;
+      showReadout(`<span class="big">Bıdık'ın gördüğü: ${data.length} satır sayı</span>Örtü yok, renk yok. Her mantı iki sayı ve bir etiket (1 = kıvamında, 0 = olmamış). Desen burada görünüyor mu?<div class="corpus">${rows}</div>`);
       dom.action.textContent = 'Masaya dön';
       sound.play('pick', { volume: 0.5 });
       bidik.react('thinking', 2);
@@ -290,14 +305,25 @@ const ctx = {
       ctx.say('Sen deseni gördün; ben sayılardan öğrenmek zorundayım.', 4);
     }
   },
-  shuffleWeights() {
+  /** Chapter 2: new random strings, then the same dumpling goes through them. */
+  async shuffleWeights() {
+    if (ctx.forwardBusy) return;
     net.seed = Math.floor(Math.random() * 1e6);
     net.reset();
     network.syncWeights(false);
     board.paint((s, t) => net.predict([s, t]));
     sound.play('boing', { volume: 0.5 });
     bidik.react('surprised', 1.2);
-    ctx.say('Hâlâ karman çorman! Öğrenmeden düzelmiyor bu ipler.', 3);
+    const ex = ctx.shuffleExample;
+    const p = await ctx.showForward(ex, true);
+    if (p === null) return;
+    const tries = (ctx.shuffleTries = [...(ctx.shuffleTries || []), Math.round(p * 100)].slice(-6));
+    showReadout(
+      `<span class="big">Hep aynı mantı: ${describe(ex.x)}</span>` +
+        `Bıdık'ın cevapları: ${tries.map((v) => `<b>%${v}</b>`).join(' → ')} kıvamında. ` +
+        (tries.length > 1 ? 'İpler değişince cevap da değişti: ipler rastgeleyken cevap da rastgele.' : 'Bir daha karıştır; bakalım aynı cevabı verecek mi?')
+    );
+    ctx.say(tries.length > 1 ? 'Yine başka bir cevap! İplerim rastgeleyken ben de rastgele konuşuyorum.' : `Bu mantı… %${tries[0]} kıvamında galiba?`, 3.5);
   },
   /** Run the network on an example with pulses; returns p. */
   async showForward(example, quiet = false) {
@@ -338,8 +364,7 @@ const ctx = {
     dom.guess.hidden = false;
     dom.guessSweet.disabled = false;
     dom.guessSalty.disabled = false;
-    dom.readout.hidden = false;
-    dom.readout.innerHTML = `<span class="big">${describe(ex.x)}</span>Sence bu mantı tam kıvamında mı, yoksa olmamış mı?`;
+    showReadout(`<span class="big">${describe(ex.x)}</span>Sence bu mantı tam kıvamında mı, yoksa olmamış mı?`);
     ctx.say('Sen ne dersin? Tam kıvamında mı, olmamış mı?', 5);
     sound.play('click');
   },
@@ -351,7 +376,7 @@ const ctx = {
     dom.guessSalty.disabled = true;
     const truth = r.example.y;
     const youOk = r.you === truth;
-    dom.readout.innerHTML = `<span class="big">Sen: <b>${youSayIsSweet ? 'kıvamında' : 'olmamış'}</b> ${youOk ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>'}</span>Şimdi sıra Bıdık'ta…`;
+    showReadout(`<span class="big">Sen: <b>${youSayIsSweet ? 'kıvamında' : 'olmamış'}</b> ${youOk ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>'}</span>Şimdi sıra Bıdık'ta…`);
     ctx.say('Tamam, şimdi ben deneyeyim!', 3);
     const p = await ctx.showForward(r.example);
     if (p === null) return;
@@ -361,9 +386,13 @@ const ctx = {
     if (bidikOk) state.score.bidik++;
     updateScore();
     board.probeFace.setMood(truth ? 'joy' : 'yum');
-    dom.readout.innerHTML =
+    showReadout(
       `<span class="big">Sen: <b>${youSayIsSweet ? 'kıvamında' : 'olmamış'}</b> ${youOk ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>'} · Bıdık: <b>${bidikSays ? 'kıvamında' : 'olmamış'}</b> (%${Math.round(p * 100)}) ${bidikOk ? '<span class="ok">✓</span>' : '<span class="bad">✗</span>'}</span>` +
-      `Doğru cevap: <b>${truth ? 'tam kıvamında' : 'olmamış'}</b>. ${bidikOk ? (net.steps > 0 ? 'Bıdık da bildi!' : 'Bıdık da bildi ama şans eseri; daha öğrenmedi.') : net.steps > 0 ? 'Bıdık bu sefer yanıldı; biraz daha antrenman iyi gelir.' : 'Bıdık daha öğrenmedi, ona kızma.'}`;
+        `Doğru cevap: <b>${truth ? 'tam kıvamında' : 'olmamış'}</b>. ${bidikOk ? (net.steps > 0 ? 'Bıdık da bildi!' : 'Bıdık da bildi ama şans eseri; daha öğrenmedi.') : net.steps > 0 ? 'Bıdık bu sefer yanıldı; biraz daha antrenman iyi gelir.' : 'Bıdık daha öğrenmedi, ona kızma.'}` +
+        (STEPS[state.step]?.sliders && net.steps > 0 ? ' Örtü şimdi Bıdık\'ın haritası: pembe "kıvamında", sarı "olmamış" dediği yerler.' : '')
+    );
+    // the exam: Bıdık's map on the cloth appears only after the student has answered
+    if (STEPS[state.step]?.sliders) board.tintTarget = net.steps > 0 ? 1 : 0;
     if (bidikOk) {
       bidik.react('joy', 2);
       bidik.doHop(0.8);
@@ -398,8 +427,7 @@ const ctx = {
     bidik.doHop(0.6);
     ctx.updateStats();
     board.paint((s, t) => net.predict([s, t]));
-    dom.readout.hidden = false;
-    dom.readout.innerHTML = `<span class="big">Hata puanı ${before.loss.toFixed(2)} → <b>${after.loss.toFixed(2)}</b></span>İpler azıcık değişti. Bir daha bas; her seferinde biraz daha iyi olur.`;
+    showReadout(`<span class="big">Hata puanı ${num(before.loss)} → <b>${num(after.loss)}</b></span>İpler azıcık değişti. Bir daha bas; her seferinde biraz daha iyi olur.`);
     ctx.say('İpleri azıcık düzelttim, oh be!', 3);
     ctx.forwardBusy = false;
   },
@@ -445,13 +473,14 @@ const ctx = {
   updateStats() {
     const e = net.evaluate(data);
     dom.statSteps.textContent = String(net.steps);
-    dom.statLoss.textContent = e.loss.toFixed(2);
+    dom.statLoss.textContent = num(e.loss);
     dom.statAcc.textContent = `%${Math.round(e.acc * 100)}`;
     drawSpark();
   },
   setProbe(sugar, salt, fresh = false) {
-    const p = net.predict([sugar, salt]);
-    board.setProbe(sugar, salt, p);
+    // neither the dumpling's colour nor the map on the cloth gives Bıdık's answer away
+    board.setProbe(sugar, salt, 0.5);
+    board.tintTarget = 0;
     board.probeFace.setMood('curious');
     dom.slSugar.value = String(Math.round(sugar * 100));
     dom.slSalt.value = String(Math.round(salt * 100));
@@ -459,25 +488,47 @@ const ctx = {
     dom.guess.hidden = false;
     dom.guessSweet.disabled = false;
     dom.guessSalty.disabled = false;
-    dom.readout.hidden = false;
-    dom.readout.innerHTML = `<span class="big">Yeni mantı: ${describe([sugar, salt])}</span>Önce sen söyle: tam kıvamında mı, olmamış mı?`;
+    showReadout(`<span class="big">Yeni mantı: ${describe([sugar, salt])}</span>Önce sen söyle: tam kıvamında mı, olmamış mı?`);
     network.clearGlow();
     outputTag.text = '';
     if (fresh) ctx.say('Yeni bir mantı geldi! Önce sen tahmin et.', 4);
   },
+  /** Chapter 7: the next word, chosen by the student (a chip) or by Bıdık (the action). */
+  pickWord(word) {
+    if (tokens.finished) return;
+    const top = tokens.candidates[0][0];
+    tokens.next(word);
+    sound.play('pick');
+    if (word && word !== top) {
+      bidik.react('surprised', 1.2);
+      ctx.say(`"${word}" mı? Olabilir ama daha az olası. Ben "${top}" derdim!`, 3.5);
+    }
+    ctx.updateTokenReadout();
+  },
   updateTokenReadout() {
     const c = tokens.candidates;
-    dom.readout.hidden = false;
     if (tokens.finished) {
-      dom.readout.innerHTML = `<span class="big">"Mantı en güzel yoğurtla yenir."</span>Cümle bitti! Sıradaki en olası "kelime" nokta çıktı (%71), o yüzden cümle orada durdu. Bıdık her adımda en uzun çubuğu seçti; sen de aynı oyunu oynadın.`;
+      dom.tokenChoices.hidden = true;
+      const picks = tokens.picks;
+      const sentence = tokenSentence(tokens.prompt);
+      const prob = picks.reduce((a, k) => a * k.p, 1);
+      const chance = prob >= 0.01 ? `yaklaşık %${Math.round(prob * 100)}` : `her ${Math.round(1 / prob).toLocaleString('tr-TR')} cümlede bir`;
+      const product = picks.map((k) => `%${Math.round(k.p * 100)}`).join(' × ');
+      const allTop = picks.every((k) => k.top);
+      showReadout(
+        `<span class="big">"${sentence}"</span>` +
+          (allTop
+            ? `Cümle bitti! Her adımda en olası kelimeyi seçtin; Bıdık da tam böyle yapar. Bu cümlenin olasılığı: ${product}, ${chance}.`
+            : `Senin cümlen! Olasılığı: ${product}, ${chance}. Bıdık hep en olasıyı seçseydi "Mantı en güzel yoğurtla yenir." derdi. Gerçek sohbet robotları da bazen daha az olası kelimeler seçer; bu yüzden aynı soruya her seferinde biraz farklı cevap verirler.`)
+      );
       dom.action.textContent = 'Baştan başla';
-      ctx.say('Cümle tamam: Mantı en güzel yoğurtla yenir. Nokta da bir tahmindi!', 5);
+      ctx.say(allTop ? 'Cümle tamam! Nokta da bir tahmindi.' : 'Ne cümle ama! Ben olsam böyle demezdim.', 5);
       return;
     }
-    dom.action.textContent = 'Sıradaki kelimeyi seç!';
-    dom.readout.innerHTML =
-      `<span class="big">"${promptText()} ___"</span>` +
-      c.map(([w, p], i) => `${i === 0 ? '<b>' : ''}${w} %${Math.round(p * 100)}${i === 0 ? '</b>' : ''}`).join(' · ');
+    dom.action.textContent = 'Bıdık seçsin';
+    dom.tokenChoices.hidden = false;
+    dom.tokenChoices.innerHTML = c.map(([w, p], i) => `<button type="button" class="btn" data-word="${w}" title="${i === 0 ? 'En olası kelime' : 'Daha az olası'}">${w} <small>%${Math.round(p * 100)}</small></button>`).join('');
+    showReadout(`<span class="big">"${tokenSentence(tokens.prompt)} ___"</span>Sıradaki kelime ne olsun? Çubuklar Bıdık'ın tahmini: en uzunu en olası. Bir kelime seç ya da Bıdık seçsin.`);
   },
   startAmbientPulses() {
     state.ambient = true;
@@ -547,8 +598,9 @@ function describe(x) {
   const minutes = (x[1] * MINUTES).toFixed(1).replace('.0', '').replace('.', ',');
   return `<b>${size}</b> bir mantı, <b>${minutes} dakika</b> pişmiş`;
 }
-function promptText() {
-  return ['Mantı en güzel', 'Mantı en güzel yoğurtla', 'Mantı en güzel yoğurtla yenir'][tokens.stage] || '';
+/** Words to a sentence: punctuation sticks to the word before it. */
+function tokenSentence(words) {
+  return words.join(' ').replace(/ ([.,!])/g, '$1');
 }
 function updateScore() {
   dom.score.hidden = false;
@@ -602,8 +654,12 @@ function go(i, instant = false) {
   prev?.exit?.(ctx);
   for (const t of timers) t.cancelled = true;
   timers.length = 0;
+  // the last chapter's line must not linger over the new one
+  bubble.text = '';
+  bubble.timer = 0;
   state.step = i;
   state.autoTimer = 0;
+  state.enteredAt = performance.now();
   const s = STEPS[i];
   dom.count.textContent = `Bölüm ${i + 1} / ${STEPS.length}`;
   dom.title.textContent = s.title;
@@ -612,6 +668,7 @@ function go(i, instant = false) {
   dom.sliders.hidden = !s.sliders;
   dom.guess.hidden = true;
   dom.readout.hidden = true;
+  dom.tokenChoices.hidden = true;
   outputTag.text = '';
   outputTag.el.textContent = '';
   dom.action.hidden = !s.action;
@@ -639,6 +696,13 @@ function go(i, instant = false) {
   sound.play('click', { volume: 0.6 });
 }
 
+dom.lesson.addEventListener('pointerdown', () => (state.actedAt = performance.now()));
+dom.lesson.addEventListener('keydown', () => (state.actedAt = performance.now()));
+canvas.addEventListener('pointerdown', () => (state.actedAt = performance.now()));
+dom.tokenChoices.addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-word]');
+  if (b) ctx.pickWord(b.dataset.word);
+});
 dom.prev.addEventListener('click', () => go(state.step - 1));
 // on the last chapter the dock leads on to the next lesson (or back to the list)
 dom.next.addEventListener('click', () => {
@@ -936,6 +1000,9 @@ function frame() {
       const minX = side && panel.width ? Math.min(panel.right + hw + 16, r.width - hw - 8) : hw + 8;
       x = clamp(x, minX, r.width - hw - 8);
       y = clamp(y, hh + 68, r.height - hh - 8);
+    } else if (Math.abs(tmp.x) <= 1) {
+      // a label whose point is on screen is kept whole, not cut at the edge
+      x = clamp(x, hw + 8, r.width - hw - 8);
     }
     t.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
     shown.push({ t, x0: x - hw, x1: x + hw, y0: y - hh, y1: y + hh });

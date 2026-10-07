@@ -86,6 +86,13 @@
     .card__meta span { padding: 4px 10px; border-radius: 999px; background: var(--blue-100); }
     .card__go { align-self: flex-start; margin-top: 16px; padding: 10px 20px; border-radius: 999px; background: var(--purple); color: #fff; font-size: 15px; font-weight: 600; transition: background 0.2s; }
     .card:hover .card__go { background: var(--purple-deep); }
+    /* lessons that are not published yet */
+    .lessons__note { margin: -14px 0 26px; text-align: center; color: var(--ink-soft); font-size: 16px; }
+    .card--soon { box-shadow: none; }
+    .card--soon:hover { transform: none; box-shadow: none; }
+    .card--soon .card__art { filter: grayscale(0.6); opacity: 0.75; }
+    .card--soon .card__title, .card--soon .card__text { color: var(--ink-soft); }
+    .card__soon { align-self: flex-start; margin-top: 16px; padding: 8px 16px; border-radius: 999px; border: 1px dashed rgba(17, 24, 39, 0.25); color: var(--ink-soft); font-size: 15px; font-weight: 600; }
 
     /* mor bant (sitedeki "Etkinlikler" bölümü gibi) */
     .about-band { background: linear-gradient(to bottom, var(--purple), var(--purple-deep)); color: #fff; padding: 56px 0 64px; }
@@ -177,6 +184,7 @@
   <main class="wrap lessons">
     <section id="dersler">
       <h2>Dersler</h2>
+      <p class="lessons__note">Şimdilik ilk üç ders yayında; diğerleri hazırlanıyor.</p>
       <div class="grid">
         <a class="card" href="./YZ-nasil-calisir/">
           <div class="card__art" style="background:#fef2f2">
@@ -240,7 +248,7 @@
           <span class="card__go">Derse başla →</span>
         </a>
 
-        <a class="card" href="./neden-uydurur/">
+        <div class="card card--soon">
           <div class="card__art" style="background:#f3f4f6">
             <svg viewBox="0 0 300 150" aria-hidden="true">
               <g fill="#ffffff" stroke="#d1d5db" stroke-width="2"><rect x="22" y="96" width="52" height="26" rx="5"/><rect x="82" y="96" width="52" height="26" rx="5"/><rect x="142" y="96" width="52" height="26" rx="5"/></g>
@@ -258,10 +266,10 @@
           <h3 class="card__title">Sohbet robotu neden uydurur?</h3>
           <p class="card__text">Bıdık küçük bir kitap okuyup "sıradaki kelime" oyunu oynuyor: tarayıcıda çalışan gerçek bir sayma dil modeli, sıcaklık, uydurma (halüsinasyon) ve kaynağı kontrol etme alışkanlığı.</p>
           <div class="card__meta"><span>7 bölüm</span><span>ortaokul</span><span>~10 dk tek başına</span></div>
-          <span class="card__go">Derse başla →</span>
-        </a>
+          <span class="card__soon">Hazırlanıyor</span>
+        </div>
 
-        <a class="card" href="./bidik-goruyor/">
+        <div class="card card--soon">
           <div class="card__art" style="background:#fef2f2">
             <svg viewBox="0 0 300 150" aria-hidden="true">
               <g fill="#ffffff" stroke="#d1d5db" stroke-width="1.5">
@@ -283,10 +291,10 @@
           <h3 class="card__title">Bıdık görüyor</h3>
           <p class="card__text">Bilgisayar için bir resim sayılardan ibarettir. Bıdık 8×8 piksellik resimlerden mantıyla böreği ayırt etmeyi öğreniyor; sen de çizip onu kandırmayı deniyorsun.</p>
           <div class="card__meta"><span>7 bölüm</span><span>ortaokul</span><span>~10 dk tek başına</span></div>
-          <span class="card__go">Derse başla →</span>
-        </a>
+          <span class="card__soon">Hazırlanıyor</span>
+        </div>
 
-        <a class="card" href="./odulle-ogrenmek/">
+        <div class="card card--soon">
           <div class="card__art" style="background:#eff6ff">
             <svg viewBox="0 0 300 150" aria-hidden="true">
               <rect x="26" y="70" width="96" height="46" rx="8" fill="#111827"/>
@@ -306,10 +314,10 @@
           <h3 class="card__title">Bıdık ödülle öğreniyor</h3>
           <p class="card__text">Etiket yok, alkış var: Bıdık mantıyı kaç dakika pişireceğini yalnızca müşterinin alkışından öğreniyor. Keşif mi kullanım mı, boya göre iki defter ve hıza alkışlayan müşteriyle ödül tuzağı.</p>
           <div class="card__meta"><span>7 bölüm</span><span>ortaokul</span><span>~12 dk tek başına</span></div>
-          <span class="card__go">Derse başla →</span>
-        </a>
+          <span class="card__soon">Hazırlanıyor</span>
+        </div>
 
-        <a class="card" href="./kapanis/">
+        <div class="card card--soon">
           <div class="card__art" style="background:#faf5ff">
             <svg viewBox="0 0 300 150" aria-hidden="true">
               <rect x="60" y="22" width="180" height="106" rx="12" fill="#ffffff" stroke="#dc2626" stroke-width="3"/>
@@ -327,10 +335,10 @@
           <h3 class="card__title">Ne yapabilir, ne yapamaz?</h3>
           <p class="card__text">Altı dersin özeti, günlük hayattan "neden böyle?" oyunu, "yapabilir mi?" oyunu, dört kural, on soruluk final testi ve adına hazırlanan tamamlama kartı.</p>
           <div class="card__meta"><span>6 bölüm</span><span>ortaokul</span><span>~12 dk tek başına</span></div>
-          <span class="card__go">Derse başla →</span>
-        </a>
+          <span class="card__soon">Hazırlanıyor</span>
+        </div>
 
-        <a class="card" href="./arama-ve-kurallar/">
+        <div class="card card--soon">
           <div class="card__art" style="background:#f3f4f6">
             <svg viewBox="0 0 300 150" aria-hidden="true">
               <g fill="#ffffff" stroke="#d1d5db" stroke-width="1.5">
@@ -351,8 +359,8 @@
           <h3 class="card__title">Her yapay zeka öğrenir mi?</h3>
           <p class="card__text">Serinin sonunda isteğe bağlı bir ek: her iş öğrenme ister mi? Kuralı insan yazar, bilgisayar uygular; mutfak labirentinde en kısa yolu arama bulur. Kural mı, arama mı, öğrenme mi: hangisi nerede?</p>
           <div class="card__meta"><span>5 bölüm</span><span>ortaokul</span><span>~8 dk tek başına</span></div>
-          <span class="card__go">Derse başla →</span>
-        </a>
+          <span class="card__soon">Hazırlanıyor</span>
+        </div>
       </div>
     </section>
   </main>

@@ -40,6 +40,8 @@
     .toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
     .toc a { display: block; padding: 10px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); text-decoration: none; color: inherit; font-size: 15px; }
     .toc a b { color: var(--terracotta-deep); }
+    .toc__soon { display: block; padding: 10px 14px; border-radius: 12px; border: 1px dashed var(--line); color: var(--ink-soft); font-size: 15px; }
+    .toc__soon small { margin-left: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
     .toc a:hover { border-color: rgba(220,38,38,0.45); }
     h2 small::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--blue-dot); vertical-align: 1px; }
     .print { margin-left: auto; }
@@ -65,7 +67,7 @@
     </header>
 
     <h1>Öğretmen kılavuzu:<br /><em>sınıfta YZ Dersler</em></h1>
-    <p class="lede">Sekiz etkileşimli ders (yedi ana ders ve bir ek ders), her biri 40 dakikalık bir ders saatine göre planlandı. Her ders için kazanımlar, dakika dakika akış, ekranı durdurup soru soracağınız yerler, tartışma soruları, sık yanılgılar, beş soruluk çalışma kâğıdı ve cevap anahtarı var.</p>
+    <p class="lede">Şimdilik ilk üç ders yayında (01–03); diğerleri hazırlanıyor. Her biri 40 dakikalık bir ders saatine göre planlandı. Her ders için kazanımlar, dakika dakika akış, ekranı durdurup soru soracağınız yerler, tartışma soruları, sık yanılgılar, beş soruluk çalışma kâğıdı ve cevap anahtarı var.</p>
 
     <div class="box">
       <h3>Nasıl kullanılır</h3>
@@ -82,11 +84,11 @@
       <li><a href="#d01"><b>01</b> Yapay zeka nasıl çalışır?</a></li>
       <li><a href="#d02"><b>02</b> Ezber mi, öğrenme mi?</a></li>
       <li><a href="#d03"><b>03</b> Bıdık kimin mantısını tattı?</a></li>
-      <li><a href="#d04"><b>04</b> Sohbet robotu neden uydurur?</a></li>
-      <li><a href="#d05"><b>05</b> Bıdık görüyor</a></li>
-      <li><a href="#d06"><b>06</b> Bıdık ödülle öğreniyor</a></li>
-      <li><a href="#d07"><b>07</b> Ne yapabilir, ne yapamaz?</a></li>
-      <li><a href="#dek"><b>Ek</b> Her yapay zeka öğrenir mi?</a></li>
+      <li><span class="toc__soon"><b>04</b> Sohbet robotu neden uydurur? <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>05</b> Bıdık görüyor <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>06</b> Bıdık ödülle öğreniyor <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>07</b> Ne yapabilir, ne yapamaz? <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>Ek</b> Her yapay zeka öğrenir mi? <small>Hazırlanıyor</small></span></li>
     </ul>
 
     <!-- ============================================================ 01 -->
@@ -103,12 +105,12 @@
       <table>
         <tr><th>Dakika</th><th>Etkinlik</th></tr>
         <tr><td>0–5</td><td>Giriş sorusu (ekran kapalı): "Bir robota mantı pişirmeyi nasıl öğretirdiniz?" Cevapları tahtaya yazın; çoğu "kural söylerim" der. Ders bunu test edecek.</td></tr>
-        <tr><td>5–12</td><td>Bölüm 1–2. <b>Durak:</b> masa göründüğünde "pembelerle sarıları ayıran bir çizgi var mı?" Çapraz şeridi öğrenciler bulsun. Sonra "Bıdık'ın gözüyle bak" düğmesiyle aynı masayı 64 satır sayı olarak gösterin: "Desen burada görünüyor mu?" Makinenin işinin neden zor olduğu bu anda anlaşılır. Bölüm 2'de "İpleri karıştır" düğmesine iki kez basıp iplerin rastgele olduğunu gösterin.</td></tr>
+        <tr><td>5–12</td><td>Bölüm 1–2. <b>Durak:</b> masa göründüğünde "pembelerle sarıları ayıran bir çizgi var mı?" Çapraz şeridi öğrenciler bulsun, sonra "Cevaba bak" ile kontrol edin. Ardından "Bıdık'ın gözüyle bak" düğmesiyle aynı masayı 64 satır sayı olarak gösterin: "Desen burada görünüyor mu?" Makinenin işinin neden zor olduğu bu anda anlaşılır. Bölüm 2'de "İpleri karıştır"a iki üç kez basın: aynı mantıya Bıdık her seferinde başka bir yüzde söyler; ipler rastgeleyken cevap da rastgeledir.</td></tr>
         <tr><td>12–18</td><td>Bölüm 3 (oyun). Üç tur oynatın; her turda önce sınıf oylasın, sonra Bıdık. Eğitilmemiş Bıdık'ın çoğunlukla yanıldığını vurgulayın: "daha öğrenmedi, ona kızmayın".</td></tr>
         <tr><td>18–24</td><td>Bölüm 4. <b>Durak:</b> "Hadi düzelt"e basmadan önce "hata puanı artar mı, azalır mı?" diye sorun. Üç kez basın; her seferinde azıcık düştüğünü izleyin.</td></tr>
         <tr><td>24–30</td><td>Bölüm 5 (antrenman). <b>Durak:</b> başlatmadan "örtü nasıl boyanacak?" tahmini. Antrenman biterken çapraz şeridin belirdiğini gösterin: "Kimse ona büyük mantı uzun pişer demedi."</td></tr>
-        <tr><td>30–35</td><td>Bölüm 6–7. Sınavda örtüye tıklayıp yeni mantı koyun; kenara yakın bir mantıda %55 gibi kararsız bir cevap yakalamaya çalışın. Bölüm 7'de "sıradaki kelime" oyununu iki kez oynatın.</td></tr>
-        <tr><td>35–40</td><td>Bölüm 8 bilgi testi sınıfça; giriş sorusuna dönün: "Kural söyleyen var mıydı? Ne değişti?"</td></tr>
+        <tr><td>30–35</td><td>Bölüm 6–7. Sınavda örtüye tıklayıp yeni mantı koyun; Bıdık'ın haritası sınıf tahminini söyledikten sonra açılır. Haritada şeridin kenarına bir mantı koyup %55 gibi kararsız bir cevap yakalamaya çalışın. Bölüm 7'de cümleyi iki kez kurun: önce sınıf en olası kelimeleri seçsin, sonra en az olasıları; ikinci cümlenin olasılığının ne kadar küçük olduğuna birlikte bakın.</td></tr>
+        <tr><td>35–40</td><td>Bölüm 8: dört adımlık özeti (tahmin et, ne kadar yanıldın, azıcık düzelt, tekrar et) sesli okuyun, sonra bilgi testi sınıfça; giriş sorusuna dönün: "Kural söyleyen var mıydı? Ne değişti?"</td></tr>
       </table>
       <div class="grid2">
         <div>
@@ -154,12 +156,12 @@
       <table>
         <tr><th>Dakika</th><th>Etkinlik</th></tr>
         <tr><td>0–5</td><td>Giriş: "Sınavda kitaptaki soruların aynısı çıksa, kimin gerçekten öğrendiğini anlayabilir miyiz?" Kısa tartışma.</td></tr>
-        <tr><td>5–10</td><td>Bölüm 1. İki masayı tanıtın. Sınav masasının antrenmanda "görünmez" olduğunu vurgulayın.</td></tr>
-        <tr><td>10–18</td><td>Bölüm 2 (6 mantı). <b>Durak:</b> başlatmadan önce iki puanı tahmin ettirin ve tahtaya yazın. Sonuç: antrenman %100, sınav %78 civarı.</td></tr>
-        <tr><td>18–23</td><td>Bölüm 3. "Yanlışları göster": kırmızı halkaları sayın. Örtüdeki tuhaf şekli gerçek çapraz şeritle karşılaştırın: "Altı noktayı doğru bilen çok şekil var."</td></tr>
-        <tr><td>23–30</td><td>Bölüm 4 (64 mantı). <b>Durak:</b> aynı tahmin. Sonuç: iki masada da %100. Kaydırıcıyla 12, 24 gibi ara değerleri deneyin; "kaç mantı yetiyor?" sorusunu öğrenciler araştırsın.</td></tr>
-        <tr><td>30–36</td><td>Bölüm 5 (yanlış etiket). <b>Durak:</b> "Ustanın yanlış etiketleri Bıdık'ı nasıl etkiler?" Sonuç: iki puan da düşer. "Çöp girer, çöp çıkar" deyimini verin.</td></tr>
-        <tr><td>36–40</td><td>Bölüm 6 bilgi testi; giriş sorusuna dönüş.</td></tr>
+        <tr><td>5–10</td><td>Bölüm 1. İki masayı tanıtın. "Bıdık'ın gördüğü masa" düğmesiyle sınav masasını gizleyip antrenmanda Bıdık'a "görünmez" olduğunu gösterin.</td></tr>
+        <tr><td>10–18</td><td>Bölüm 2 (6 mantı). <b>Durak:</b> başlatmadan önce iki puanı tahmin ettirin ve tahtaya yazın. Sonuç: antrenman %100, sınav %78.</td></tr>
+        <tr><td>18–23</td><td>Bölüm 3. Kırmızı halkaları sayın (7 yanlış). Örtüdeki tuhaf şekli gerçek çapraz şeritle karşılaştırın. Sonra "Başka 6 mantı seç"e üç dört kez basın: antrenman neredeyse hep %100, sınav çoğunlukla %50–90 arasında oynar, harita her seferinde değişir. "Altı noktayı doğru bilen çok şekil var; hangisini çizeceği gördüğü 6 mantıya bağlı."</td></tr>
+        <tr><td>23–30</td><td>Bölüm 4 (64 mantı). <b>Durak:</b> aynı tahmin. Sonuç: iki masada da %100. Sonra kaydırıcıyla 16 ve 32'yi deneyin; sonuçlar tabloda birikir. Sınav puanı 4–24 mantı arasında %78–84'te kalır, 32'de %94'e, 48'den itibaren %100'e çıkar: "Kaç mantıdan sonra %90'ı geçiyor?"</td></tr>
+        <tr><td>30–36</td><td>Bölüm 5 (yanlış etiket). <b>Durak:</b> "Ustanın yanlış etiketleri Bıdık'ı nasıl etkiler?" Mor halkalar 16 yanlış etiketi gösterir. Sonuç: iki puan da düşer (%67 / %81), 16 yanlışın 10'u ezberlenir. "Çöp girer, çöp çıkar" deyimini verin.</td></tr>
+        <tr><td>36–40</td><td>Bölüm 6: üç deneyin özet kartını birlikte okuyun, sonra bilgi testi; giriş sorusuna dönüş.</td></tr>
       </table>
       <div class="grid2">
         <div>
@@ -174,7 +176,7 @@
           <h3>Sık yanılgılar</h3>
           <ul>
             <li>"Daha çok antrenman her zaman iyidir." Az veriyle çok antrenman ezberi güçlendirir; çare veri.</li>
-            <li>"%78 fena değil." Antrenman %100 iken sınav %78 olması sorunun ta kendisi: fark ezberi gösterir.</li>
+            <li>"%78 fena değil." Antrenman %100 iken sınav %78 olması sorunun ta kendisi: fark ezberi gösterir. Üstelik sınav masasında hep "kıvamında" diyen bir model bile %62 alır.</li>
             <li>"Yanlış etiket deneyinde sınav antrenmandan yüksek çıktı, bir hata var." Hata yok: antrenman masası ustanın yanlış etiketleriyle puanlanır (16 mantı ters etiketli, en fazla %75 alınabilir), sınav masası doğru etiketlerle. Sonuç %67 ve %81; temiz etiketlerde ikisi de %100'dü.</li>
           </ul>
         </div>
@@ -244,7 +246,7 @@
     </section>
 
     <!-- ============================================================ 04 -->
-    <section class="lesson" id="d04">
+    <section class="lesson" id="d04" hidden>
       <h2><small>Ders 04 · 40 dk</small>Sohbet robotu neden uydurur?</h2>
       <p class="link">Adres: <a href="../neden-uydurur/">/neden-uydurur/</a> · 7 bölüm · Ön koşul: Ders 01 (bölüm 7)</p>
       <h3>Kazanımlar</h3>
@@ -295,7 +297,7 @@
     </section>
 
     <!-- ============================================================ 05 -->
-    <section class="lesson" id="d05">
+    <section class="lesson" id="d05" hidden>
       <h2><small>Ders 05 · 40 dk</small>Bıdık görüyor</h2>
       <p class="link">Adres: <a href="../bidik-goruyor/">/bidik-goruyor/</a> · 7 bölüm · Ön koşul: Ders 01</p>
       <h3>Kazanımlar</h3>
@@ -346,7 +348,7 @@
     </section>
 
     <!-- ============================================================ 06 -->
-    <section class="lesson" id="d06">
+    <section class="lesson" id="d06" hidden>
       <h2><small>Ders 06 · 40 dk</small>Bıdık ödülle öğreniyor</h2>
       <p class="link">Adres: <a href="../odulle-ogrenmek/">/odulle-ogrenmek/</a> · 7 bölüm · Ön koşul: Ders 01</p>
       <h3>Kazanımlar</h3>
@@ -397,7 +399,7 @@
     </section>
 
     <!-- ============================================================ 07 -->
-    <section class="lesson" id="d07">
+    <section class="lesson" id="d07" hidden>
       <h2><small>Ders 07 · 40 dk</small>Ne yapabilir, ne yapamaz? (kapanış)</h2>
       <p class="link">Adres: <a href="../kapanis/">/kapanis/</a> · 6 bölüm · Ön koşul: Ders 01–06</p>
       <h3>Kazanımlar</h3>
@@ -448,7 +450,7 @@
     </section>
 
     <!-- ============================================================ EK -->
-    <section class="lesson" id="dek">
+    <section class="lesson" id="dek" hidden>
       <h2><small>Ek ders · 30 dk</small>Her yapay zeka öğrenir mi? Kurallar ve arama</h2>
       <p class="link">Adres: <a href="../arama-ve-kurallar/">/arama-ve-kurallar/</a> · 5 bölüm · Ön koşul: Ders 01–07 (isteğe bağlı ek)</p>
       <h3>Kazanımlar</h3>

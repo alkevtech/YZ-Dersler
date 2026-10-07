@@ -617,6 +617,29 @@ body { font-size: 18px; }
 /* answer chips with a whole sentence wrap inside the panel instead of running off it */
 .game__item .chips .btn, .quiz__opts .btn { white-space: normal; max-width: 100%; text-align: left; line-height: 1.3; }
 
+/* "Cevaba bak": the student looks first, then checks (lesson 01, chapter 1) */
+.answer { margin: 0 0 12px; }
+.answer summary { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; list-style: none; padding: 6px 14px; border-radius: 999px; background: var(--tint); color: var(--terracotta-deep); font-size: 15px; font-weight: 600; }
+.answer summary::-webkit-details-marker { display: none; }
+.answer summary::before { content: '▸'; transition: transform 0.2s; }
+.answer[open] summary::before { transform: rotate(90deg); }
+.lesson__text .answer p { margin: 8px 0 0; padding: 8px 12px; border-left: 3px solid var(--sweet); border-radius: 0 10px 10px 0; background: var(--tint-soft); }
+/* the learning loop in four steps, before a quiz */
+.cycle { list-style: none; counter-reset: step; margin: 4px 0 14px; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+.cycle li { counter-increment: step; position: relative; padding: 10px 12px 10px 46px; border-radius: 14px; background: var(--tint-soft); font-size: 15px; line-height: 1.35; }
+.cycle li::before { content: counter(step); position: absolute; left: 12px; top: 10px; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--terracotta); color: #fff; font-size: 13px; font-weight: 700; }
+.cycle b { display: block; font-size: 16px; }
+.cycle span { color: var(--ink-soft); }
+/* word choices in the button bar (lesson 01, chapter 7) */
+.chips[hidden] { display: none; }
+.lesson__actions > .chips { flex-basis: 100%; }
+.chips .btn small { font-size: 0.8em; font-weight: 500; color: var(--ink-soft); }
+
+/* an experiment's runs, one row each (lesson 02, chapter 4) */
+.runs { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 2px 20px; margin-top: 10px; font-size: 16px; font-variant-numeric: tabular-nums; }
+.runs > span:nth-child(-n + 3) { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.purple { color: #9333ea; font-weight: 600; }
+
 /* ---- Yapay Zekâ Yıldızları marka dokunuşları ---------------------------- */
 /* Düğmeler: sitedeki gibi kırmızı geçişli, gölgeli, üzerine gelince hafif kalkan hap */
 .btn--accent {

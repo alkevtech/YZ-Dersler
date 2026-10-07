@@ -102,7 +102,7 @@ export class Network3D extends THREE.Group {
     // pulses
     this.pulses = [];
     this.pulseMat = new THREE.SpriteMaterial({ map: softDot, color: '#ffe27a', transparent: true, depthWrite: false, opacity: 0.95 });
-    this.pulseMatBack = new THREE.SpriteMaterial({ map: softDot, color: '#3d8bff', transparent: true, depthWrite: false, opacity: 1 });
+    this.pulseMatBack = new THREE.SpriteMaterial({ map: softDot, color: '#9333ea', transparent: true, depthWrite: false, opacity: 1 });
     this.pool = [];
     for (let k = 0; k < (this.manyInputs ? 120 : 40); k++) {
       const s = new THREE.Sprite(this.pulseMat);

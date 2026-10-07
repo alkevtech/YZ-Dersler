@@ -67,6 +67,11 @@ export class Board extends THREE.Group {
     );
     this.plateMesh.castShadow = true;
     this.marbleMesh.castShadow = true;
+    // the dish count starts at 0, so three.js would compute an empty bounding
+    // sphere once and then cull every dish whenever the table's centre is near
+    // the screen edge (tablets: only the shadows were left on the cloth)
+    this.plateMesh.frustumCulled = false;
+    this.marbleMesh.frustumCulled = false;
     this.plateMesh.count = 0;
     this.marbleMesh.count = 0;
     this.plateMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -190,8 +195,8 @@ export class Board extends THREE.Group {
       for (let k = 0; k < n; k++) {
         const p = this.predictions[k];
         tmp.lerpColors(this.clothSalty, this.clothSweet, p);
-        // soften toward the cloth so the dumplings stay readable
-        tmp.lerp(this.baseColor, 0.38);
+        // soften toward the cloth a little; the dumplings sit on white plates
+        tmp.lerp(this.baseColor, 0.18);
         tmp.lerp(this.baseColor, 1 - this.tint);
         this.tileMesh.setColorAt(k, tmp);
       }

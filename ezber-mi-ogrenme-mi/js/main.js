@@ -5,7 +5,8 @@ import { Network3D } from '../../js/network.js';
 import { STEPS, QUIZ } from './steps.js';
 
 const FOCUS = {
-  overview: { target: new THREE.Vector3(0.8, 0.45, -0.3), dist: 12.0, az: 0.18, el: 0.98, bidik: [0.7, 2.4] },
+  // tablets: a step back and to the left, so both tables sit right of the panel
+  overview: { target: new THREE.Vector3(0.8, 0.45, -0.3), dist: 12.0, az: 0.18, el: 0.98, bidik: [0.7, 2.4], mid: { target: new THREE.Vector3(0.2, 0.45, -0.3), dist: 19 } },
   train: { target: new THREE.Vector3(-1.1, 0.2, 0.2), dist: 6.9, az: 0.12, el: 1.0, bidik: [0.95, 2.05] },
   test: { target: new THREE.Vector3(2.5, 0.2, 0.2), dist: 6.2, az: 0.1, el: 1.0, bidik: [0.6, 2.0] },
   network: { target: new THREE.Vector3(1.05, 1.15, -2.6), dist: 6.9, az: 0.18, el: 1.2, bidik: [2.6, -2.7] },
@@ -60,9 +61,20 @@ createLesson({
     }
     testBoard.add(marks);
 
+    // purple rings under the dishes the chef labelled wrongly (chapter 5)
+    const flipMarks = new THREE.Group();
+    const flipMat = new THREE.MeshBasicMaterial({ color: PALETTE.purple });
+    for (let i = 0; i < pool.length; i++) {
+      const m = new THREE.Mesh(ringGeo, flipMat);
+      m.rotation.x = -Math.PI / 2;
+      m.visible = false;
+      flipMarks.add(m);
+    }
+    train.add(flipMarks);
+
     const on = () => !c.state.uiHidden;
     c.addTag('Antrenman masası', () => train.localToWorld(new THREE.Vector3(0, 0.05, -train.size / 2 - 0.35)), on, 'tag--big');
-    c.addTag('Sınav masası', () => testBoard.localToWorld(new THREE.Vector3(0, 0.05, -testBoard.size / 2 - 0.35)), on, 'tag--big');
+    c.addTag('Sınav masası', () => testBoard.localToWorld(new THREE.Vector3(0, 0.05, -testBoard.size / 2 - 0.35)), () => on() && testBoard.visible, 'tag--big');
     c.addTag('küçük → büyük', () => train.localToWorld(new THREE.Vector3(0.7, 0.02, train.size / 2 + 0.3)), on, 'tag--axis');
     c.addTag('↑ pişme süresi', () => train.localToWorld(new THREE.Vector3(-train.size / 2 - 0.65, 0.02, 0.1)), on, 'tag--axis');
     c.addTag('yardımcılar', () => network.localToWorld(new THREE.Vector3(network.columns[1], 2.28, 0)), () => network.weightsShown > 0.5 && on());
@@ -78,8 +90,12 @@ createLesson({
       count: 64,
       noisy: false,
       subset: pool.slice(),
+      custom: false, // chapter 3: a random six instead of the pool's first six
+      runs: [], // clean-label runs for chapter 4's table: { n, pa, pb }
+      sixTries: [],
       training: false,
-      budget: 0,
+      trainTime: 0,
+      trainDone: 0,
       paintTimer: 0,
       setCount(n, instant = false) {
         c.count = n;
@@ -93,10 +109,77 @@ createLesson({
         c.rebuildSubset();
         train.setDishes(c.subset);
         train.revealAll();
+        c.showFlips(onOff);
       },
       rebuildSubset() {
         const base = pool.slice(0, c.count);
+        c.custom = false;
         c.subset = c.noisy ? flipLabels(base, 0.25, 7) : base;
+      },
+      showFlips(show) {
+        flipMarks.children.forEach((m, i) => {
+          const d = c.subset[i];
+          m.visible = !!(show && d && d.flipped);
+          if (d) m.position.copy(train.toLocal(d.x[0], d.x[1], 0.035));
+        });
+      },
+      /** Chapter 1: the training table is all Bıdık gets to see while he learns. */
+      toggleBidikView() {
+        c.bidikView = !c.bidikView;
+        testBoard.visible = !c.bidikView;
+        c.setAction(c.bidikView ? 'İki masayı göster' : 'Bıdık\'ın gördüğü masa', false);
+        sound.play(c.bidikView ? 'grab' : 'refill', { volume: 0.5 });
+        c.say(c.bidikView ? 'Antrenmanda yalnızca bu masayı görüyorum. Sınav masası bana kapalı!' : 'Sınav masası geri geldi. Ona ancak sınavda bakacağım.', 4);
+      },
+      /** Chapter 3 must show chapter 2's result even when its run was skipped:
+       *  the same six dumplings and the same Bıdık give the same result every time. */
+      ensureSixTrained() {
+        if (c.count === 6 && !c.noisy && !c.custom && net.steps >= 600) return;
+        c.stopTraining();
+        c.noisy = false;
+        c.count = 6;
+        c.rebuildSubset();
+        train.setDishes(c.subset);
+        train.revealAll();
+        c.showFlips(false);
+        net.reset();
+        c.trainSilently(600);
+        c.updateStats();
+      },
+      /** Chapter 3: the same Bıdık learns six other dumplings from the pool. */
+      otherSix() {
+        c.stopTraining();
+        const pick = new Set();
+        while (pick.size < 6) pick.add(Math.floor(Math.random() * pool.length));
+        c.subset = [...pick].map((i) => pool[i]);
+        c.custom = true;
+        train.setDishes(c.subset);
+        train.revealAll();
+        net.reset();
+        c.trainSilently(600);
+        c.updateStats();
+        c.markWrong();
+        const pa = Math.round(net.evaluate(c.subset).acc * 100);
+        const pb = Math.round(net.evaluate(test).acc * 100);
+        c.sixTries = [...c.sixTries, pb].slice(-7);
+        c.readout(
+          `<span class="big">Başka 6 mantı: antrenman %${pa} · sınav %${pb}</span>` +
+            `Sınav puanları: ${c.sixTries.map((v) => `<b>%${v}</b>`).join(' → ')}. ${pa === 100 ? 'Antrenmanda yine tam puan' : `Antrenmanda bu sefer %${pa}`}; ama sınav puanı da örtüdeki harita da Bıdık'ın hangi 6 mantıyı gördüğüne göre değişiyor.`
+        );
+        sound.play('boing', { volume: 0.5 });
+        bidik.react(pb >= 80 ? 'happy' : 'worried', 2);
+        c.say(pa === 100 ? `Yine hepsini ezberledim ama sınavda %${pb}. Haritam bambaşka oldu!` : `Bu 6 mantıyı ezberleyemedim bile! Sınavda %${pb}.`, 4);
+      },
+      recordRun(n, pa, pb) {
+        c.runs = [...c.runs.filter((r) => r.n !== n), { n, pa, pb }].sort((a, b) => a.n - b.n);
+      },
+      runsTable() {
+        if (!c.runs.length) return '';
+        return (
+          '<div class="runs"><span>Mantı</span><span>Antrenman</span><span>Sınav</span>' +
+          c.runs.map((r) => `<b>${r.n}</b><span>%${r.pa}</span><span${r.pb >= 90 ? ' class="ok"' : ''}>%${r.pb}</span>`).join('') +
+          '</div>'
+        );
       },
       showTest(show) {
         if (show) testBoard.revealAll();
@@ -130,7 +213,8 @@ createLesson({
       startTraining() {
         c.training = true;
         c.state.busy = true;
-        c.budget = 600;
+        c.trainTime = 0;
+        c.trainDone = 0;
         c.setAction('Dur biraz', true);
         bidik.setMood('curious');
         c.say('Bakıyorum, düzeltiyorum, bakıyorum, düzeltiyorum…', 5);
@@ -190,10 +274,22 @@ createLesson({
   },
   update(dt, c) {
     if (c.training) {
-      const perFrame = c.reducedMotion ? 8 : 4;
-      for (let k = 0; k < perFrame && c.budget > 0; k++) {
+      // a watchable run: the first looks go slowly, then Bıdık speeds up
+      // (0–1.5 s: 20 looks, 3 s: 100, 4.5 s: 300, 6 s: 600; reduced motion: twice as fast)
+      c.trainTime += dt * (c.reducedMotion ? 2 : 1);
+      const keys = [[0, 0], [1.5, 20], [3, 100], [4.5, 300], [6, 600]];
+      let target = 600;
+      for (let k = 1; k < keys.length; k++) {
+        if (c.trainTime < keys[k][0]) {
+          const [t0, s0] = keys[k - 1];
+          const [t1, s1] = keys[k];
+          target = Math.floor(s0 + ((c.trainTime - t0) / (t1 - t0)) * (s1 - s0));
+          break;
+        }
+      }
+      while (c.trainDone < target) {
         c.net.trainStep(c.subset, 1.2);
-        c.budget--;
+        c.trainDone++;
       }
       c.paintTimer += dt;
       if (c.paintTimer > 0.08) {
@@ -202,7 +298,7 @@ createLesson({
         if (c.net.steps % 12 === 0) c.sound.play('hop', { volume: 0.25 });
         if (c.net.steps % 40 === 0) c.bidik.doHop(0.4);
       }
-      if (c.budget <= 0) {
+      if (c.trainDone >= 600) {
         c.stopTraining();
         const a = c.net.evaluate(c.subset);
         const b = c.net.evaluate(c.test);
@@ -216,11 +312,15 @@ createLesson({
           const copied = flipped.filter((d) => (c.net.predict(d.x) > 0.5 ? 1 : 0) === d.y).length;
           c.readout(
             `<span class="big">Antrenman masası %${pa} · Sınav masası %${pb}</span>` +
-              `<b>${pb > pa ? 'Sınav neden daha yüksek?' : 'İki puan neden böyle?'}</b> Antrenman masası ustanın yanlış etiketleriyle puanlanıyor: ${n} mantının ${flipped.length} tanesinin etiketi yanlış, o yüzden orada en fazla %${cap} alınabilir. Sınav masasının etiketleri doğru. ` +
-              `Temiz etiketlerle ikisi de %100'dü; yanlış etiketler Bıdık'ı iki masada da geriletti. Üstelik Bıdık ${flipped.length} yanlış etiketin <span class="warn">${copied} tanesini</span> olduğu gibi ezberledi.`
+              `Temiz etiketlerle ikisi de %100'dü; yanlış etiketler Bıdık'ı iki masada da geriletti. Mor halkalı ${flipped.length} yanlış etiketin <span class="warn">${copied} tanesini</span> olduğu gibi ezberledi. ` +
+              `<b>${pb > pa ? 'Sınav neden daha yüksek?' : 'Antrenman puanı neden düşük?'}</b> Antrenman masası ustanın yanlış etiketleriyle puanlanıyor: ${n} mantının ${flipped.length} tanesi yanlış olduğu için kuralı kusursuz bilen biri bile orada en fazla %${cap} alırdı.`
           );
         } else {
-          c.readout(`<span class="big">Antrenman masası %${pa} · Sınav masası %${pb}</span>${pa - pb >= 12 ? '<span class="warn">Büyük fark!</span> Bıdık masayı ezberlemiş, kuralı öğrenmemiş.' : pb >= 90 ? 'Fark küçük: Bıdık bu sefer gerçekten öğrendi.' : 'İkisi de düşük: Bıdık\'ın kafası karışmış.'}`);
+          if (!c.custom) c.recordRun(c.subset.length, pa, pb);
+          c.readout(
+            `<span class="big">${c.subset.length} mantı: antrenman %${pa} · sınav %${pb}</span>${pa - pb >= 12 ? '<span class="warn">Büyük fark!</span> Bıdık masayı ezberlemiş, kuralı öğrenmemiş.' : pb >= 90 ? 'Fark küçük: Bıdık bu sefer gerçekten öğrendi.' : 'İkisi de düşük: Bıdık\'ın kafası karışmış.'}` +
+              (c.state.step === 3 ? c.runsTable() : '')
+          );
         }
         c.toast(`Antrenman bitti! Antrenman masası %${pa}, sınav masası %${pb}.`);
         c.say(pa - pb >= 12 ? 'Antrenmanda süperim ama sınavda… hmm.' : pb >= 90 ? 'İki masada da bildim! Bu sefer öğrendim!' : 'Bir şeyler ters. Bu mantılar birbirini tutmuyor!', 5);

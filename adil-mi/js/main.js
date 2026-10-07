@@ -38,6 +38,7 @@ function makeChefRings(board) {
   const mesh = new THREE.InstancedMesh(new THREE.TorusGeometry(0.118, 0.012, 8, 32), new THREE.MeshBasicMaterial({ color: '#ffffff' }), 96);
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   mesh.count = 0;
+  mesh.frustumCulled = false; // see Board: an empty start would cull the rings near the screen edge
   board.add(mesh);
   const colors = CHEFS.map((ch) => new THREE.Color(ch.color));
   const d = new THREE.Object3D();

@@ -179,7 +179,11 @@ export function createLesson(lesson) {
   const FOCUS = lesson.focus;
   let focusCtx = null;
   function focus(name, instant = false) {
-    const f = FOCUS[name] || FOCUS.overview;
+    const base = FOCUS[name] || FOCUS.overview;
+    // tablets (901–1180 px) leave the scene a narrower stage beside the panel;
+    // a preset may give its own target and distance for them
+    const w = window.innerWidth;
+    const f = base.mid && w > 900 && w <= 1180 ? { ...base, ...base.mid } : base;
     const aspect = camera.aspect;
     // phones: the panel covers the lower half, so the scene gets a smaller stage
     const fit = aspect < 1 && window.innerWidth <= 900 ? clamp((1.4 / aspect) * 0.85, 1, 3) : clamp(1.4 / aspect, 1, 2.4);
@@ -395,6 +399,9 @@ export function createLesson(lesson) {
     prev?.exit?.(ctx);
     for (const t of timers) t.cancelled = true;
     timers.length = 0;
+    // the last chapter's line must not linger over the new one
+    bubble.text = '';
+    bubble.timer = 0;
     state.step = i;
     state.autoTimer = 0;
     state.enteredAt = performance.now();
@@ -639,6 +646,9 @@ export function createLesson(lesson) {
         const minX = side && panel.width ? Math.min(panel.right + hw + 16, r.width - hw - 8) : hw + 8;
         x = clamp(x, minX, r.width - hw - 8);
         y = clamp(y, hh + 68, r.height - hh - 8);
+      } else if (Math.abs(tmp.x) <= 1) {
+        // a label whose point is on screen is kept whole, not cut at the edge
+        x = clamp(x, hw + 8, r.width - hw - 8);
       }
       t.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
       shown.push({ t, x0: x - hw, x1: x + hw, y0: y - hh, y1: y + hh });
