@@ -40,6 +40,8 @@
     .toc { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
     .toc a { display: block; padding: 10px 14px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); text-decoration: none; color: inherit; font-size: 15px; }
     .toc a b { color: var(--terracotta-deep); }
+    .toc__soon { display: block; padding: 10px 14px; border-radius: 12px; border: 1px dashed var(--line); color: var(--ink-soft); font-size: 15px; }
+    .toc__soon small { margin-left: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
     .toc a:hover { border-color: rgba(220,38,38,0.45); }
     h2 small::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--blue-dot); vertical-align: 1px; }
     .print { margin-left: auto; }
@@ -65,7 +67,7 @@
     </header>
 
     <h1>Öğretmen kılavuzu:<br /><em>sınıfta YZ Dersler</em></h1>
-    <p class="lede">Sekiz etkileşimli ders (yedi ana ders ve bir ek ders), her biri 40 dakikalık bir ders saatine göre planlandı. Her ders için kazanımlar, dakika dakika akış, ekranı durdurup soru soracağınız yerler, tartışma soruları, sık yanılgılar, beş soruluk çalışma kâğıdı ve cevap anahtarı var.</p>
+    <p class="lede">Şimdilik ilk üç ders yayında (01–03); diğerleri hazırlanıyor. Her biri 40 dakikalık bir ders saatine göre planlandı. Her ders için kazanımlar, dakika dakika akış, ekranı durdurup soru soracağınız yerler, tartışma soruları, sık yanılgılar, beş soruluk çalışma kâğıdı ve cevap anahtarı var.</p>
 
     <div class="box">
       <h3>Nasıl kullanılır</h3>
@@ -82,11 +84,11 @@
       <li><a href="#d01"><b>01</b> Yapay zeka nasıl çalışır?</a></li>
       <li><a href="#d02"><b>02</b> Ezber mi, öğrenme mi?</a></li>
       <li><a href="#d03"><b>03</b> Bıdık kimin mantısını tattı?</a></li>
-      <li><a href="#d04"><b>04</b> Sohbet robotu neden uydurur?</a></li>
-      <li><a href="#d05"><b>05</b> Bıdık görüyor</a></li>
-      <li><a href="#d06"><b>06</b> Bıdık ödülle öğreniyor</a></li>
-      <li><a href="#d07"><b>07</b> Ne yapabilir, ne yapamaz?</a></li>
-      <li><a href="#dek"><b>Ek</b> Her yapay zeka öğrenir mi?</a></li>
+      <li><span class="toc__soon"><b>04</b> Sohbet robotu neden uydurur? <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>05</b> Bıdık görüyor <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>06</b> Bıdık ödülle öğreniyor <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>07</b> Ne yapabilir, ne yapamaz? <small>Hazırlanıyor</small></span></li>
+      <li><span class="toc__soon"><b>Ek</b> Her yapay zeka öğrenir mi? <small>Hazırlanıyor</small></span></li>
     </ul>
 
     <!-- ============================================================ 01 -->
@@ -244,7 +246,7 @@
     </section>
 
     <!-- ============================================================ 04 -->
-    <section class="lesson" id="d04">
+    <section class="lesson" id="d04" hidden>
       <h2><small>Ders 04 · 40 dk</small>Sohbet robotu neden uydurur?</h2>
       <p class="link">Adres: <a href="../neden-uydurur/">/neden-uydurur/</a> · 7 bölüm · Ön koşul: Ders 01 (bölüm 7)</p>
       <h3>Kazanımlar</h3>
@@ -295,7 +297,7 @@
     </section>
 
     <!-- ============================================================ 05 -->
-    <section class="lesson" id="d05">
+    <section class="lesson" id="d05" hidden>
       <h2><small>Ders 05 · 40 dk</small>Bıdık görüyor</h2>
       <p class="link">Adres: <a href="../bidik-goruyor/">/bidik-goruyor/</a> · 7 bölüm · Ön koşul: Ders 01</p>
       <h3>Kazanımlar</h3>
@@ -346,7 +348,7 @@
     </section>
 
     <!-- ============================================================ 06 -->
-    <section class="lesson" id="d06">
+    <section class="lesson" id="d06" hidden>
       <h2><small>Ders 06 · 40 dk</small>Bıdık ödülle öğreniyor</h2>
       <p class="link">Adres: <a href="../odulle-ogrenmek/">/odulle-ogrenmek/</a> · 7 bölüm · Ön koşul: Ders 01</p>
       <h3>Kazanımlar</h3>
@@ -397,7 +399,7 @@
     </section>
 
     <!-- ============================================================ 07 -->
-    <section class="lesson" id="d07">
+    <section class="lesson" id="d07" hidden>
       <h2><small>Ders 07 · 40 dk</small>Ne yapabilir, ne yapamaz? (kapanış)</h2>
       <p class="link">Adres: <a href="../kapanis/">/kapanis/</a> · 6 bölüm · Ön koşul: Ders 01–06</p>
       <h3>Kazanımlar</h3>
@@ -448,7 +450,7 @@
     </section>
 
     <!-- ============================================================ EK -->
-    <section class="lesson" id="dek">
+    <section class="lesson" id="dek" hidden>
       <h2><small>Ek ders · 30 dk</small>Her yapay zeka öğrenir mi? Kurallar ve arama</h2>
       <p class="link">Adres: <a href="../arama-ve-kurallar/">/arama-ve-kurallar/</a> · 5 bölüm · Ön koşul: Ders 01–07 (isteğe bağlı ek)</p>
       <h3>Kazanımlar</h3>
