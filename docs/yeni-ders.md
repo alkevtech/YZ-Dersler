@@ -28,7 +28,7 @@ Ders 02'den itibaren tüm dersler ortak çalışma zamanını kullanır:
 | Alan | Açıklama |
 | --- | --- |
 | `steps`, `quiz` | `steps.js`'ten |
-| `focus` | Kamera ön ayarları: `{ name: { target: Vector3, dist, az, el, bidik: [x, z] } }`. `overview` ve `bidik` zorunlu. |
+| `focus` | Kamera ön ayarları: `{ name: { target: Vector3, dist, az, el, bidik: [x, z], mid? } }`. `overview` ve `bidik` zorunlu. `mid` (isteğe bağlı) tablet genişliği (901–1180 px) için `{ target, dist, … }` üzerine yazar: orada panel ekranın yarısına yakınını kaplar. |
 | `setup(ctx)` | Sahne nesnelerini kurar, `ctx`'e eklenecek alanları döndürür. |
 | `update(dt, ctx)` | Her karede çağrılır (sahne nesnelerinin `update(dt)`'si burada). |
 | `keys` | `{ e: (ctx) => … }` gibi ek kısayollar. |

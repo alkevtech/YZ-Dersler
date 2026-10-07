@@ -179,7 +179,11 @@ export function createLesson(lesson) {
   const FOCUS = lesson.focus;
   let focusCtx = null;
   function focus(name, instant = false) {
-    const f = FOCUS[name] || FOCUS.overview;
+    const base = FOCUS[name] || FOCUS.overview;
+    // tablets (901–1180 px) leave the scene a narrower stage beside the panel;
+    // a preset may give its own target and distance for them
+    const w = window.innerWidth;
+    const f = base.mid && w > 900 && w <= 1180 ? { ...base, ...base.mid } : base;
     const aspect = camera.aspect;
     // phones: the panel covers the lower half, so the scene gets a smaller stage
     const fit = aspect < 1 && window.innerWidth <= 900 ? clamp((1.4 / aspect) * 0.85, 1, 3) : clamp(1.4 / aspect, 1, 2.4);

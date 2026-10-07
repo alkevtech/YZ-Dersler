@@ -635,6 +635,11 @@ body { font-size: 18px; }
 .lesson__actions > .chips { flex-basis: 100%; }
 .chips .btn small { font-size: 0.8em; font-weight: 500; color: var(--ink-soft); }
 
+/* an experiment's runs, one row each (lesson 02, chapter 4) */
+.runs { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 2px 20px; margin-top: 10px; font-size: 16px; font-variant-numeric: tabular-nums; }
+.runs > span:nth-child(-n + 3) { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+.purple { color: #9333ea; font-weight: 600; }
+
 /* ---- Yapay Zekâ Yıldızları marka dokunuşları ---------------------------- */
 /* Düğmeler: sitedeki gibi kırmızı geçişli, gölgeli, üzerine gelince hafif kalkan hap */
 .btn--accent {
